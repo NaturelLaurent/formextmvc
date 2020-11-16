@@ -5,9 +5,8 @@
     </head>
 
     <body>
-
-        Mon prénom : <?=$user ?><br>
-
-        login : <?=$user?>
+        <h1>Utilisateur</h1><br>
+        Mon prénom : <?=$user->getName() ?><br>
+        login : <?=$user->getLogin() ?>
     </body>
 </html>
