@@ -1,4 +1,6 @@
 <?php
+// use src\Entity\User;
+require (dirname(__DIR__).'/Entity/User.php');
 
 class UserManager
 {
@@ -7,13 +9,15 @@ class UserManager
     public function __construct()
     {
         $this->info = [
+            'prenom' => 'maxime',
+            'email' => 'contact@maximepierre.fr'
         ];
     }
 
-    public function getInfo() : User
+   public function getInfo() : User
     {
         $user = new User();
-        $user->setLogin($this->info['login'])->setPrenom($this->info['nom']);
+        $user->setPrenom($this->info['prenom'])->setEmail($this->info['email']);
 
         return $user;
     }
