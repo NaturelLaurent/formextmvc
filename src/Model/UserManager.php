@@ -1,5 +1,7 @@
 <?php
 
+require (dirname(__DIR__).'/Entity/User.php');
+
 class UserManager
 {
     private array $info;
@@ -7,6 +9,8 @@ class UserManager
     public function __construct()
     {
         $this->info = [
+            'nom' => 'Laurent',
+            'login' => 'laurent@free.fr'
         ];
     }
 

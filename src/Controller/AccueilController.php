@@ -15,6 +15,6 @@ class AccueilController
     {
         $user = $this->user->getInfo();
 
-        // Affiche la vue accueilView.php
+        require (dirname(__DIR__).'/templates/accueilView.php');
     }
 }
