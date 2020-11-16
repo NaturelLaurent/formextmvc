@@ -9,8 +9,13 @@ if(file_exists($file)) {
     require dirname(__DIR__) . '/src/Controller/' . $class .'.php';
 
     $obj = new $class;
-    $obj->$method();
 
+    if(method_exists($obj, $method))
+    {
+        $obj->$method();
+    }else {
+        echo 'method pas bonne';
+    }
 
 } else {
     echo 'Le fichier n\'existe pas';
