@@ -3,9 +3,10 @@
 
 spl_autoload_register(function($class){ 
    
-  
+  $dirTab = explode("\\", $class);
+  $dir = 'src/'.$dirTab[1].'/'.$dirTab[2].'.php';
 
-
+    require dirname(__DIR__).'/'.$dir;
 });
 
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
