@@ -1,22 +1,31 @@
 <?php
-if (!empty($_GET['controller'])) {
-    $class = ucwords($_GET['controller']) . 'Controller';
-} else {
-    $class = 'AccueilController';
+
+
+spl_autoload_register(function($class){ 
+   
+  
+
+
+});
+
+$pathInfo = $_SERVER['PATH_INFO'] ?? '/';
+
+
+$route =[
+    '/'=> 'App\Controller\AccueilController@show',
+    '/page'=> 'App\Controller\PageController@show'
+];
+
+if (!empty($route[$pathInfo])) {
+  
+    $classMethod = explode('@',$route[$pathInfo]);
+  
+        $objController = new $classMethod[0];       
+
+    call_user_func([ $objController, $classMethod[1]], $_REQUEST);
+
+  
+}else {
+    echo 'essaye encore';
 }
 
-$method = $_GET['action'] ?? 'show';
-
-if(file_exists(dirname(__DIR__) . '/src/Controller/' . $class . '.php')) {
-    require_once dirname(__DIR__) . '/src/Controller/' . $class . '.php';
-
-    $obj = new $class;
-
-    if(method_exists($obj, $method)) {
-        $obj->$method();
-
-        die();
-    }
-}
-
-echo 'Le fichier n\'existe pas';

@@ -1,6 +1,8 @@
 <?php
 
-require (dirname(__DIR__).'/Model/UserManager.php');
+namespace App\Controller;
+
+use App\Model\UserManager;
 
 class AccueilController
 {
