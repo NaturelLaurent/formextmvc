@@ -6,6 +6,6 @@ class PageController{
 
     public function show ($request){
     
-    echo ('dans la page request');
+        require (dirname(__DIR__).'/templates/accueilView.php');
     }
 }

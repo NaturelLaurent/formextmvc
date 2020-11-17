@@ -9,11 +9,14 @@ spl_autoload_register(function($class){
     require dirname(__DIR__).'/'.$dir;
 });
 
-$pathInfo = $_SERVER['PATH_INFO'] ?? '/';
+$pathInfo = $_SERVER['REQUEST_URI'] ?? '/';
 
 
 $route =[
     '/'=> 'App\Controller\AccueilController@show',
+    '/personnage'=> 'App\Controller\AccueilController@show',
+    '/modifierPersonnage'=>'App\Controller\AccueilController@show',
+    '/contact'=> 'App\Controller\AccueilController@show',
     '/page'=> 'App\Controller\PageController@show'
 ];
 

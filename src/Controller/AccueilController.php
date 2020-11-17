@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use app\Entity\User;
 use App\Model\UserManager;
 
 class AccueilController
@@ -19,4 +20,6 @@ class AccueilController
 
         require (dirname(__DIR__).'/templates/accueilView.php');
     }
+
+    
 }

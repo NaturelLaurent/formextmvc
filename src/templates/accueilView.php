@@ -1,22 +1,73 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    </head>
 
-    <body>
-    <a href="/" class="btn btn-primary stretched-link">Accueil</a>
-    <a href="/page" class="btn btn-primary stretched-link">Personnage</a>
-    <a href="/personnage" class="btn btn-primary stretched-link">Modifier personnage</a>
-    <a href="/modifierPersonnage" class="btn btn-primary stretched-link">Contact</a>
+<head>
+    <meta charset="utf-8">
 
-    
-      
-    </body>
+</head>
+
+<body>
+    <div class="container">
+        <ul>
+
+            <li>
+                <a href="/" class="btn btn-primary ">Accueil</a>
+            </li>
+            <li>
+
+                <a href="/personnage" class="btn btn-primary ">Personnage</a>
+            </li>
+            <li>
+
+                <a href="/modifierPersonnage" class="btn btn-primary ">Modifier personnage</a>
+            </li>
+            <li>
+
+                <a href="/contact" class="btn btn-primary ">Contact</a>
+            </li>
+        </ul>
+        <div class="container">
+
+            <?php
+            if ($_SERVER['REQUEST_URI'] == '/personnage') {
+
+                echo ' <h3> Le personnage</h3>';
+                echo $user->getPrenom() . '<br>';
+                echo $user->getLogin();
+            }
+            if ($_SERVER['REQUEST_URI'] == '/modifierPersonnage') {
+                echo ' <h3>Modifier Personnage</h3><br>';
+                echo '<form action="/modifierPersonnage" method="post">
+                    <p>Votre nom : <input type="text" name="nom" /></p>
+                    <p>Votre email : <input type="text" name="email" /></p>
+                    <p><input type="submit" value="Modifier"></p>
+                   </form> ';
+
+                if (!empty($_POST["nom"])) {                   
+                    echo '<h3>Personnage Modifier</h3><br>';
+                    echo '<p>Prénom : ' . $_POST['nom'] . '</p>';
+                    echo ' <p>Email  :' . $_POST['email'] . '</p>';
+                }
+            }
+
+                if ($_SERVER['REQUEST_URI'] == '/contact') {
+                    echo ' <h3> Contact : </h3><br>';
+                    echo $user->getLogin();
+                }
+            
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+            ?>
+        </div>
+    </div><br>
+
+
+
+
+
+
+</body>
+
+
+
 </html>
