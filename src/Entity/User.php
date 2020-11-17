@@ -1,36 +1,48 @@
 <?php
 
+
 class User
 {
-    private string $nom;
-
+    private string $prenom;
     private string $login;
 
-    public function getNom() : string
-     {
-		return $this->nom;
-	}
+    /**
+     * @return string
+     */
+    public function getPrenom(): string
+    {
+        return $this->prenom;
+    }
 
-    public function setNom(string $nom) : self
-     {
-        $this>$nom = $nom;
+    /**
+     * @param string $prenom
+     */
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
         return $this;
-	}
+    }
 
-    public function getLogin() : string
-     {
-		return $this->login;
-	}
+    /**
+     * @return string
+     */
+    public function getLogin(): string
+    {
+        return $this->login;
+    }
 
-    public function setLogin(string $login) :self
-     {
-        $this->$login = $login;
+    /**
+     * @param string $login
+     */
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
         return $this;
-	}
+    }
 
 
 
-    
+
 }
-
-

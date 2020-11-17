@@ -1,22 +1,22 @@
 <?php
-$class = $_GET['controller'];
-$method = $_GET['action'];
+if (!empty($_GET['controller'])) {
+    $class = ucwords($_GET['controller']) . 'Controller';
+} else {
+    $class = 'AccueilController';
+}
 
+$method = $_GET['action'] ?? 'show';
 
-$class = $class?? 'AccueilController';
-
-var_dump(dirname(__DIR__));
-if( file_exists(dirname(__DIR__).'/src/Controller'.$class . '.php')) {
-
-    require_once (dirname(__DIR__).'/src/Controller/'.$class . '.php');
+if(file_exists(dirname(__DIR__) . '/src/Controller/' . $class . '.php')) {
+    require_once dirname(__DIR__) . '/src/Controller/' . $class . '.php';
 
     $obj = new $class;
 
-   $method = $method ?? 'show';
+    if(method_exists($obj, $method)) {
+        $obj->$method();
 
-    $obj->$method();
-}else{
-    
-echo 'Le fichier n\'existe ';
-
+        die();
+    }
 }
+
+echo 'Le fichier n\'existe pas';
