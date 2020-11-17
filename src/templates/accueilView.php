@@ -8,11 +8,17 @@
     <body>
         <header>
             <h1 id="title">PHP_Vanilla_MVC</h1>
+            <menu>
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/personnage">Personnage</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                </ul>
+            </menu>
         </header>
-        <article>
-            <p> Mon prénom : <?=$user->getPrenom()?></p>
-            <p>email : <?=$user->getEmail()?></p>
-        </article>
+        
+
+      Bienvenue sur la page d'accueil
 
         
     </body>

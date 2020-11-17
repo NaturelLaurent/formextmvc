@@ -1,6 +1,9 @@
 <?php
-// use src\Entity\User;
-require (dirname(__DIR__).'/Entity/User.php');
+namespace App\Model;
+
+use App\Entity\User;
+
+//require (dirname(__DIR__).'/Entity/User.php');
 
 class UserManager
 {

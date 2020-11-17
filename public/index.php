@@ -1,21 +1,33 @@
 <?php
-if(!empty($_GET['controller'])){
-    $class = $_GET['controller'] . 'Controller';
-}else{
-    $class = 'AccueilController';
-}
-$method = $_GET['action'] ?? 'show';
 
-if(file_exists(dirname(__DIR__). '/src/Controller/' . $class . '.php')) {
-    require dirname(__DIR__). '/src/Controller/' . $class . '.php';
+spl_autoload_register(function ($class){
+    $class= str_replace('App', 'src', $class );
+    $class= str_replace('/', '\\', $class);
+    //include(__DIR__."\\".$class.'.php') ;
+    require (dirname(__DIR__)."\\".$class.".php");
+});
 
-    $obj = new $class;
+$route = [
+    '/' => 'App\Controller\AccueilController@index',
+    '/personnage' => 'App\Controller\PersonnageController@index',
+    '/personnage/edit' => 'App\Controller\PersonnageController@edit',
+    '/contact' => 'App\Controller\ContactController@index'
+];
 
-    if(method_exists($obj, $method)){
-        $obj->$method();
-        die();
-    }
+
+$url = $_SERVER['REQUEST_URI'];  
+
+if(!empty($route[$url])){
+    $classMethode = explode('@', $route[$url]);
+
+    $obj = new $classMethode[0];
+
+    $classMethode[0] = $obj;
+    call_user_func($classMethode, $_REQUEST);
+
+    die();
     
+}else{
+    echo 'pas ok';
 }
-    echo 'Le fichier n\'existe pas';
 

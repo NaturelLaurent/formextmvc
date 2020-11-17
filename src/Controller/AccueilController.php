@@ -1,19 +1,17 @@
 <?php
-
-require (dirname(__DIR__).'/Model/UserManager.php');
+namespace App\Controller;
 
 class AccueilController
 {
-    private $user;
-
     public function __construct()
     {
-        $this->user = new UserManager();
+       
     }
 
-    public function show()
+    public function index()
     {
-        $user = $this->user->getInfo();
+    
+       
         require (dirname(__DIR__).'/templates/accueilView.php');
         // Affiche la vue accueilView.php
     }
