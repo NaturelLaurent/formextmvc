@@ -5,6 +5,6 @@
     </head>
 
     <body>
-        <h1>Accueil</h1>
+        <h1>Mes Articles</h1>
     </body>
 </html>

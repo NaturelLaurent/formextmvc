@@ -1,5 +1,5 @@
 <?php
-require (dirname(__DIR__).'/Entity/User.php');
+// require (dirname(__DIR__).'/Entity/User.php');
 class UserManager
 {
     private array $info;

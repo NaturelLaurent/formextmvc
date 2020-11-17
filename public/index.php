@@ -1,22 +1,15 @@
 <?php
-$class  = ucwords($_GET['controller']. 'Controller'); 
-$method = $_GET['action'];
-$file   = dirname(__DIR__) . '/src/Controller/' . $class .'.php';
-// echo $class;
 
-if(file_exists($file)) {
+spl_autoload_register(function ($class) {
 
-    require dirname(__DIR__) . '/src/Controller/' . $class .'.php';
+    include '../vendor/satawork/route.php';
+    include '../src/Controller/AccueilController.php';
+    include '../src/Model/UserManager.php';
 
-    $obj = new $class;
+});
 
-    if(method_exists($obj, $method))
-    {
-        $obj->$method();
-    }else {
-        echo 'method pas bonne';
-    }
 
-} else {
-    echo 'Le fichier n\'existe pas';
-}
+require dirname(__DIR__) . '/routes/web.php';
+
+
+
