@@ -8,25 +8,13 @@
 </head>
 
 <body>
-    
+    <?php
+    echo ' <h3> Contact : </h3><br>';
+    echo $user->getLogin();
 
-            <?php           
-          
-
-              
-                    echo ' <h3> Contact : </h3><br>';
-                    echo $user->getLogin();
-                  
-
-
-            ?>
-        </div>
+    ?>
+    </div>
     </div><br>
-
-
-
-
-
 
 </body>
 

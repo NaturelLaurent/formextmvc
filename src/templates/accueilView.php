@@ -32,17 +32,8 @@
                     <a href="/contact" class="list-group-item list-group-item-action list-group-item-primary">Contact</a>
                 </li>
             </ul>
-
-
         </div>
-
     </div><br>
-
-
-
-
-
-
 </body>
 
 
