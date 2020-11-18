@@ -4,7 +4,8 @@
 spl_autoload_register(function($class){ 
    
   $dirTab = explode("\\", $class);
-  $dir = 'src/'.$dirTab[1].'/'.$dirTab[2].'.php';
+  $dirTab = str_replace("App","src", $dirTab);   
+  $dir = implode('/', $dirTab).'.php';   
 
     require dirname(__DIR__).'/'.$dir;
 });
@@ -14,9 +15,9 @@ $pathInfo = $_SERVER['REQUEST_URI'] ?? '/';
 
 $route =[
     '/'=> 'App\Controller\AccueilController@show',
-    '/personnage'=> 'App\Controller\AccueilController@show',
-    '/modifierPersonnage'=>'App\Controller\AccueilController@show',
-    '/contact'=> 'App\Controller\AccueilController@show',
+    '/personnage'=> 'App\Controller\AccueilController@showPerson',
+    '/modifierPersonnage'=>'App\Controller\AccueilController@modif',
+    '/contact'=> 'App\Controller\AccueilController@contact',
     '/page'=> 'App\Controller\PageController@show'
 ];
 

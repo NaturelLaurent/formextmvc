@@ -28,7 +28,13 @@
         </ul>
         <div class="container">
 
-          
+            <?php         
+
+                echo ' <h3> Le personnage</h3>';
+                echo $user->getPrenom() . '<br>';
+                echo $user->getLogin();      
+           
+            ?>
         </div>
     </div><br>
 

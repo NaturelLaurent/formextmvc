@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use app\Entity\User;
+use App\Entity\User;
 
 class UserManager
 {

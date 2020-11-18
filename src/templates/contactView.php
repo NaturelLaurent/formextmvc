@@ -28,7 +28,16 @@
         </ul>
         <div class="container">
 
+            <?php           
           
+
+              
+                    echo ' <h3> Contact : </h3><br>';
+                    echo $user->getLogin();
+                  
+
+
+            ?>
         </div>
     </div><br>
 

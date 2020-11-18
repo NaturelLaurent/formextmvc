@@ -8,4 +8,8 @@ class PageController{
     
         require (dirname(__DIR__).'/templates/accueilView.php');
     }
+
+  
+
+    
 }
