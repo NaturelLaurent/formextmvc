@@ -14,8 +14,8 @@ $route = [
     '/contact' => 'App\Controller\ContactController@index'
 ];
 
+$url = $_SERVER['REQUEST_URI'];
 
-$url = $_SERVER['REQUEST_URI'];  
 
 if(!empty($route[$url])){
     $classMethode = explode('@', $route[$url]);

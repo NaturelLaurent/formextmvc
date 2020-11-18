@@ -12,7 +12,7 @@
                 <ul>
                     <li><a href="/">Accueil</a></li>
                     <li><a href="/personnage">Personnage</a></li>
-                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/contact">Contact</a></li>
                 </ul>
             </menu>
         </header>
