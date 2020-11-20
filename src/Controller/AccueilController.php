@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-class AccueilController
+class AccueilController extends AbstractController
 {
     public function __construct()
     {
@@ -12,7 +12,8 @@ class AccueilController
     {
     
        
-        require (dirname(__DIR__).'/templates/accueilView.php');
-        // Affiche la vue accueilView.php
+        $this->render('accueilView', [
+
+        ]);
     }
 }

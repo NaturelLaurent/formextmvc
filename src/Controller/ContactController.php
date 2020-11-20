@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-class ContactController
+class ContactController extends AbstractController
 {
     public function index()
     {
@@ -24,6 +24,8 @@ class ContactController
              mail($to,$sujet,$content,$header);
         }
        
-        require (dirname(__DIR__).'/templates/contact.php');
+        $this->render("contact",[
+            
+        ]);
     }
 }

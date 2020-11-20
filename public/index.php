@@ -1,33 +1,17 @@
 <?php
 
-spl_autoload_register(function ($class){
-    $class= str_replace('App', 'src', $class );
-    $class= str_replace('/', '\\', $class);
-    //include(__DIR__."\\".$class.'.php') ;
-    require (dirname(__DIR__)."\\".$class.".php");
-});
+require dirname(__DIR__).'/vendor/autoload.php';
 
-$route = [
-    '/' => 'App\Controller\AccueilController@index',
-    '/personnage' => 'App\Controller\PersonnageController@index',
-    '/personnage/edit' => 'App\Controller\PersonnageController@edit',
-    '/contact' => 'App\Controller\ContactController@index'
-];
+$uri = ($_SERVER['REQUEST_URI']);
+$router = new App\config\Router($uri);
 
-$url = $_SERVER['REQUEST_URI'];
+// $router->get('/', "Accueil@index");
 
+// $router->get('/articles', function(){ echo 'Tous les articles';});
 
-if(!empty($route[$url])){
-    $classMethode = explode('@', $route[$url]);
+// $router->get('/article/:id', function($id){ echo 'Voir l\'article'.$id;});
 
-    $obj = new $classMethode[0];
-
-    $classMethode[0] = $obj;
-    call_user_func($classMethode, $_REQUEST);
-
-    die();
-    
-}else{
-    echo 'pas ok';
-}
+// $router->post('/article/:id', function($id){ echo 'poster l\'article'.$id;});
+$router->chekerUrl();
+$router->run();
 

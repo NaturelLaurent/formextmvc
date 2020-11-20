@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Service;
-
+use App\config\AccessConfig;
 use PDO;
 
 class SqlService
@@ -11,7 +11,7 @@ class SqlService
 
     private function __construct()
     {
-        $this->connection = new PDO('mysql:host=NomServeur;dbname=NomDeLaBase;charset=utf8', $login, $password,
+        $this->connection = new PDO('mysql:host='.SERVERNAME.';dbname='.DBNAME.';charset=utf8', LOGIN, PASSWORD,
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     }
 
