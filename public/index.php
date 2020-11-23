@@ -2,7 +2,7 @@
 <<<<<<< HEAD
 
 if (!empty($_GET['controller'])) {
-
+"test"
     $class = ucwords($_GET['controller']) . 'Controller';
 
 } else {
