@@ -22,7 +22,7 @@ class EntityManager
 
         foreach ($arr->getArrayCopy() as $key => $value) {
           $prop = str_replace( $className,"",$key);
-          array_push($entityTab, $prop, $value);        
+         $entityTab[$prop]   = $value;
            
         }
         $tableName = explode("\\",$className);
