@@ -10,4 +10,4 @@ if(file_exists($class . '.php')) {
     $obj->$method();
 }
 
-echo 'Le fichier n\'existe pas';
+echo 'Le fichier n\'existe pas ';
