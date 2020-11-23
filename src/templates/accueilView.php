@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="col-sm-2">
+    
         <div class="list-group">
             <ul>
 
@@ -21,19 +21,19 @@
                 </li>
                 <li>
 
-                    <a href="/personnage" class="list-group-item list-group-item-action list-group-item-primary">Personnage</a>
+                    <a href="/addPersonne" class="list-group-item list-group-item-action list-group-item-primary">créer un utilisateur</a>
                 </li>
                 <li>
 
-                    <a href="/modifierPersonnage" class="list-group-item list-group-item-action list-group-item-primary">Modifier personnage</a>
+                    <a href="/modifierPersonnage" class="list-group-item list-group-item-action list-group-item-primary">Modifier l'utilisateur</a>
                 </li>
                 <li>
 
-                    <a href="/contact" class="list-group-item list-group-item-action list-group-item-primary">Contact</a>
+                    <a href="/contact" class="list-group-item list-group-item-action list-group-item-primary">Suprimer l'utilisation</a>
                 </li>
             </ul>
         </div>
-    </div><br>
+    
 </body>
 
 

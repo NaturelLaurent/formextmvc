@@ -2,43 +2,33 @@
 
 namespace App\Controller;
 
-use app\Entity\User;
-use App\Model\UserManager;
+use App\Entity\User;
+use App\Repository;
+use App\Repository\UserRepository;
+use App\Service\EntityManager;
 
-class AccueilController
-{
-    private $user;
+class AccueilController extends AbstractContoller
+{      
 
-    public function __construct()
+  
+    public function addPerson(array $request)
     {
-        $this->user = new UserManager();
+      if ( !empty($request['nom']) && !empty($request['prenom']) && !empty($request['email'])) {
+          $user = new User();
+          $user->setNom($request['nom'])
+            ->setEmail( $request['email'])
+            ->setPrenom($request['prenom']);
+
+            EntityManager::flush($user);
+          
+      }
+
+        $this->render('formAddPersonne');
     }
 
-    public function show()
-    {
-        $user = $this->user->getInfo();
+   
 
-        require (dirname(__DIR__).'/templates/accueilView.php');
-    }
-
-    public function showPerson()
-    {
-        $user = $this->user->getInfo();
-
-        require (dirname(__DIR__).'/templates/personnageView.php');
-    }
-
-    public function modif()
-    {
-      
-        require (dirname(__DIR__).'/templates/modifPersonView.php');
-    }
-
-    public function contact()
-    {
-        $user = $this->user->getInfo();
-        require (dirname(__DIR__).'/templates/contactView.php');
-    }
+   
 
 
 

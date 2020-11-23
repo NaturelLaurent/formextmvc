@@ -2,22 +2,52 @@
 namespace App\Entity;
 
 class User
-{
+{  
+    private int $id;
+    private string $nom;
     private string $prenom;
-    private string $login;
+    private string $email;
+    
+    
+
+   
+
+
 
     /**
-     * @return string
-     */
-    public function getPrenom(): string
+     * Get the value of nom
+     */ 
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set the value of nom
+     *
+     * @return  self
+     */ 
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of prenom
+     */ 
+    public function getPrenom()
     {
         return $this->prenom;
     }
 
     /**
-     * @param string $prenom
-     */
-    public function setPrenom(string $prenom): self
+     * Set the value of prenom
+     *
+     * @return  self
+     */ 
+    public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
 
@@ -25,24 +55,42 @@ class User
     }
 
     /**
-     * @return string
-     */
-    public function getLogin(): string
+     * Get the value of email
+     */ 
+    public function getEmail()
     {
-        return $this->login;
+        return $this->email;
     }
 
     /**
-     * @param string $login
-     */
-    public function setLogin(string $login): self
+     * Set the value of email
+     *
+     * @return  self
+     */ 
+    public function setEmail($email)
     {
-        $this->login = $login;
+        $this->email = $email;
 
         return $this;
     }
 
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
 
-
+        return $this;
+    }
 }
