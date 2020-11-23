@@ -3,6 +3,7 @@
 class UserManager
 
 {
+    
     private array $info;
 
     public function __construct()
