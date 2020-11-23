@@ -18,8 +18,8 @@ class AccueilController extends AbstractContoller
           $user->setNom($request['nom'])
             ->setEmail( $request['email'])
             ->setPrenom($request['prenom']);
-
-            EntityManager::flush($user);
+          $em = new EntityManager();
+            $em->flush($user);
           
       }
 

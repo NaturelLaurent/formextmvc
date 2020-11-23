@@ -6,9 +6,8 @@ use PDO;
 use PDOException;
 
 class SqlService
-{   const HOST = 'localhost';
-    const USER_NAME = 'root';
-    const DB_NAME = 'formation_php';
+{   protected $dsn = 'mysql:dbname=formation_php;host=127.0.0.1';
+    protected $userName = 'root';  
     private $connection;
     private static $instance;
 
@@ -16,7 +15,7 @@ class SqlService
     {
         try {
             
-            $this->connection = new PDO('mysql:host='.$this->HOST.';dbname='.$this->DB_NAME.';charset=utf8', $this->USER_NAME,
+            $this->connection = new PDO($this->dsn,$this->userName,'',
              array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             
         } catch (PDOException $e) {
@@ -41,9 +40,15 @@ class SqlService
         return $this->connection;
     }
 
-    public function insert(array $arrayOject){
+    public function insert(array $arrayOject, string $table){
 
-      
+        foreach ($arrayOject as $key => $value) {
+          
+        }
+        $request = 'INSERT INTO'.$table;
+
+      var_dump($table);
+      //  $this->connection->prepare();
         
 
     }

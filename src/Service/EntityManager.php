@@ -13,7 +13,7 @@ class EntityManager
             $this->sql = SqlService::getInstance();
         }
 
-    public static function flush ($entity)
+    public function flush ($entity)
     {
        $arr = new ArrayObject($entity);
        $className = get_class($entity);   
@@ -25,6 +25,10 @@ class EntityManager
           array_push($entityTab, $prop, $value);        
            
         }
+        $tableName = explode("\\",$className);
+        $tableName = array_pop( $tableName);
+        $tableName =strtolower( $tableName);
+        $this->sql->insert( $entityTab,  $tableName);
        
 
 
