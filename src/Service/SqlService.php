@@ -41,9 +41,9 @@ class SqlService
         return $this->connection;
     }
 
-    public function insert(string $requet){
+    public function insert(array $arrayOject){
 
-        $this->connection->query($requet);
+      
         
 
     }
