@@ -5,7 +5,14 @@ namespace App\Service;
 use ArrayObject;
 
 class EntityManager 
+
 {
+    protected SqlService $sql;
+
+         function __construct() {
+            $this->sql = SqlService::getInstance();
+        }
+
     public static function flush ($entity)
     {
        $arr = new ArrayObject($entity);
@@ -18,8 +25,9 @@ class EntityManager
           array_push($entityTab, $prop, $value);        
            
         }
+       
 
-        
+
       
         
        
