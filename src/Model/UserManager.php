@@ -1,12 +1,16 @@
 <?php
-
+test
 class UserManager
+
 {
     private array $info;
+    
 
     public function __construct()
     {
         $this->info = [
+            'login'=>'root',
+            'nom' =>'root'
         ];
     }
 
