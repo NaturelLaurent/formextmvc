@@ -48,23 +48,29 @@ class SqlService
     public function insert(array $arrayOject, string $table)
     {
         $champ = '(';
-        $valeur = '(';
+        $varValeur = '(';
         $last_key = array_key_last($arrayOject);
+        $param = array();
 
         foreach ($arrayOject as $key => $value) {
             if ($key == $last_key) {
                 $champ .= $key . ')';
-                $valeur .= $value . ');';
+                $varValeur .= ':' . $key . ');';
             } else {
                 $champ .= $key . ',';
-                $valeur .= $value . ',';
+                $varValeur .= ':' . $key . ',';
             }
+            $param[':' . $key] = "'".$value."'";
         }
+      
+        $request = "INSERT INTO " . $table . " " . $champ . " VALUES " . $varValeur;
 
-        $request = "INSERT INTO " . $table . " " . $champ . " VALUES " . $valeur;
         var_dump($request);
         try {
-            $this->connection->exec($request);
+            $pre =  $this->connection->prepare($request);
+          
+            $pre->execute($param);
+           
         } catch (PDOException $e) {
             echo 'Error  ' . $e->getMessage();
         }
