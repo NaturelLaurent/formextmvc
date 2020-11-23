@@ -4,7 +4,7 @@ class UserManager
 
 {
     private array $info;
-"lol"
+
     public function __construct()
     {
         $this->info = [
