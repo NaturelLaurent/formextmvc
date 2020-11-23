@@ -4,7 +4,7 @@ class UserManager
 
 {
     private array $info;
-"LOl"
+    
 
     public function __construct()
     {
