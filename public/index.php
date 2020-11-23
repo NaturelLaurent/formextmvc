@@ -7,9 +7,9 @@ $router = new App\config\Router($uri);
 
 $routing = $router->chekerUrl();
 
-$router->get($routing[0], $routing[1].'@'.$routing[2]);
+$router->add($routing[0], $routing[1].'@'.$routing[2], null, $routing[3]);
 
-// $router->get('/articles', function(){ echo 'Tous les articles';});
+//$router->get('/articles', function(){ echo 'Tous les articles';});
 
 // $router->get('/article/:id', function($id){ echo 'Voir l\'article'.$id;});
 

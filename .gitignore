@@ -1,3 +1,2 @@
-/config/Access.php
-/config/*
+src/config/Access.json
 /vendor/

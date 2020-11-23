@@ -1,26 +1,38 @@
 {
-    "routes": 
-        { 
-            "homeShow": 
-                {
-                    "path": "/",
-                    "controller": "Accueil",
-                    "methode": "index"
-                },
-            "articlesShow":
-                {
-                    "path": "/atricles",
-                    "controller": "Articles",
-                    "methode": "index"
-                }
-            
-            
-
+    "homeShow":    
+        {
+            "path": "/",
+            "controller": "Accueil",
+            "methode": "index",
+            "type": "GET"
+        }, 
+    "articlesShow":
+        {
+            "path": "/articles",
+            "controller": "Articles",
+            "methode": "index",
+            "type": "GET"
+        },
+    "contactShow":
+        {
+            "path": "/contact",
+            "controller": "Contact",
+            "methode": "index",
+            "type": "GET"
+        },
+    "userShow":
+        {
+            "path":"/users",
+            "controller": "User",
+            "methode": "index",
+            "type": "GET"
+        },
+    "userAdd":
+        {
+            "path":"/adduser",
+            "controller": "User",
+            "methode": "add",
+            "type": "POST"
         }
-
-    
-
-
-
-
+        
 }

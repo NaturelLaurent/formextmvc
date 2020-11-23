@@ -58,12 +58,23 @@ class Router
     public function chekerUrl(){
 
         $routemap = file_get_contents("route.json", true);
-        $parsed_json = json_decode($routemap);
-        $path = $parsed_json->{"routes"}->{"homeShow"}->{"path"};
-        $controller = $parsed_json->{"routes"}->{"homeShow"}->{"controller"};
-        $method = $parsed_json->{"routes"}->{"homeShow"}->{"methode"};
-        $routing = [$path,$controller,$method];
+        $parsed_json = json_decode($routemap,true);
+        $parsed_json = array_values($parsed_json);
+        
+        $key = array_search($this->url, array_column($parsed_json, 'path'));
+        
+        if($key === false){
+            throw new RouterException('No route matches in this name');
+        }
 
+        $val = array_values($parsed_json[$key]);
+
+        $path = $val[0];
+        $controller = $val[1];
+        $method = $val[2];
+        $type = $val[3];
+        $routing = [$path,$controller,$method,$type];
+        
        return $routing;
     }
 

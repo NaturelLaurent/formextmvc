@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-class ArticlesController extends AbstractController
+class UserController extends AbstractController
 {
     public function __construct()
     {
@@ -11,8 +11,7 @@ class ArticlesController extends AbstractController
     public function index()
     {
     
-       
-        $this->render('articlesView', [
+        $this->render('usersView', [
 
         ]);
     }

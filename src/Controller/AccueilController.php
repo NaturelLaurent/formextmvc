@@ -11,7 +11,7 @@ class AccueilController extends AbstractController
     public function index()
     {
     
-       
+        $this->bddconnect();
         $this->render('accueilView', [
 
         ]);
