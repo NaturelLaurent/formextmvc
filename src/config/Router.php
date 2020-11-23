@@ -56,7 +56,15 @@ class Router
     }
 
     public function chekerUrl(){
-        
+
+        $routemap = file_get_contents("route.json", true);
+        $parsed_json = json_decode($routemap);
+        $path = $parsed_json->{"routes"}->{"homeShow"}->{"path"};
+        $controller = $parsed_json->{"routes"}->{"homeShow"}->{"controller"};
+        $method = $parsed_json->{"routes"}->{"homeShow"}->{"methode"};
+        $routing = [$path,$controller,$method];
+
+       return $routing;
     }
 
 

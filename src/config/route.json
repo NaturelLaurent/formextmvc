@@ -1,11 +1,24 @@
 {
-    "_comment": "TO DO : remplir le fichier de route",
-    "route": [
+    "routes": 
         { 
+            "homeShow": 
+                {
+                    "path": "/",
+                    "controller": "Accueil",
+                    "methode": "index"
+                },
+            "articlesShow":
+                {
+                    "path": "/atricles",
+                    "controller": "Articles",
+                    "methode": "index"
+                }
+            
+            
 
         }
 
-    ]
+    
 
 
 
