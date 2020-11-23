@@ -1,11 +1,10 @@
 <?php
-namespace Satawork\Route;
+use App\Route;
+use Src\Controllers\HomeController;
 
-use Src\Controllers\AccueilController;
 
+Route::get('/', [HomeController::class,'show']);
 
-Route::get('/', [AccueilController::class,'show']);
+Route::get('/profile', [HomeController::class,'profile']);
 
-Route::get('/profile', [AccueilController::class,'profile']);
-
-Route::get('/articles', [AccueilController::class,'articles']);
+Route::get('/articles', [HomeController::class,'articles']);

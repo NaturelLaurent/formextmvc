@@ -1,0 +1,11 @@
+{
+    "require": {},
+  
+    "autoload": {
+        "psr-4": {
+            "App\\"                 :"services/",
+            "Src\\Controllers\\"    :"src/Controllers/",
+            "Src\\Models\\"         :"src/Models/"
+        }
+    }
+}
