@@ -7,11 +7,20 @@ use App\Service\SqlService;
 
 class UserRepository
 {
-    private User $user;
+  protected SqlService $sql;
+ 
+  function __construct() {
+     $this->sql = SqlService::getInstance();
+    
+ }
 
-  public function FunctionName(User $user)
+  public function getUserRepository()
   {
-    SqlService::getInstance();
+   $sql = SqlService::getInstance();
+   $nameTable = 'user';
+   $user = $sql->fetch($nameTable);
+   
+    return $user;
   }
    
 }

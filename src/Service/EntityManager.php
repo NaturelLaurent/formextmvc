@@ -16,26 +16,35 @@ class EntityManager
     public function flush ($entity)
     {
        $arr = new ArrayObject($entity);
-       $className = get_class($entity);   
-      
+       $className = get_class($entity);  
+       $tableName = EntityManager::entityName($entity);
+
         $entityTab = array();
 
-        foreach ($arr->getArrayCopy() as $key => $value) {
-          $prop = str_replace( $className,"",$key);
+        foreach ($arr->getArrayCopy() as $key => $value) {        
+          $prop =trim(substr($key, strlen($className)+1));
          $entityTab[$prop]   = $value;
            
         }
+      
+        
+        $this->sql->insert( $entityTab,  $tableName);
+
+    }
+
+    public function delete($entity , int $id)
+    {
+        $tableName = EntityManager::entityName($entity);
+        $this->sql->remove( $tableName, $id);
+    }
+
+    public static function entityName($entity)
+    {
+        $className = get_class($entity);  
         $tableName = explode("\\",$className);
         $tableName = array_pop( $tableName);
         $tableName =strtolower( $tableName);
-        $this->sql->insert( $entityTab,  $tableName);
-       
 
-
-      
-        
-       
-      
-      
+        return  $tableName;
     }
 }

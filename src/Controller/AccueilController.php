@@ -26,6 +26,30 @@ class AccueilController extends AbstractContoller
         $this->render('formAddPersonne');
     }
 
+    public function listUser(){
+      
+      $rep = new UserRepository();
+      $users = $rep->getUserRepository();
+    
+      $this->render('listUser', [
+        'listUser'=> $users
+      ]);
+    }
+
+    public function accueil(){    
+      
+    
+      $this->render('accueilView');
+    }
+
+    public function userSup( array $request)
+    {
+      $user = new User();
+     $em  =new EntityManager();
+     $em->delete($user, $request['id']);
+     
+    }
+
    
 
    

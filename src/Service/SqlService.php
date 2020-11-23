@@ -60,12 +60,12 @@ class SqlService
                 $champ .= $key . ',';
                 $varValeur .= ':' . $key . ',';
             }
-            $param[':' . $key] = "'".$value."'";
+            $param[ $key] = $value;
         }
       
         $request = "INSERT INTO " . $table . " " . $champ . " VALUES " . $varValeur;
 
-        var_dump($request);
+      
         try {
             $pre =  $this->connection->prepare($request);
           
@@ -74,5 +74,21 @@ class SqlService
         } catch (PDOException $e) {
             echo 'Error  ' . $e->getMessage();
         }
+    }
+
+    public function fetch($nameTable)
+    {
+         $request = "SELECT * FROM ".$nameTable;
+       $users = $this->connection->query($request)->fetchAll(PDO::FETCH_OBJ);
+      
+       return $users;
+    }
+
+    public function remove(string $nameTable, int $id)
+    {
+    //      $request = "DELETE * FROM ".$nameTable;
+    //    $users = $this->connection->query($request);
+      // requete en cours de réalisation
+     
     }
 }

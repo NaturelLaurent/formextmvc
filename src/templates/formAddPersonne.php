@@ -13,11 +13,10 @@
 </head>
 
 <body>
-<div class = "row">
-<div class="col-sm-2">
+
     <?php require "accueilView.php"; ?>
 
-</div>
+ 
 <div class="col-md-8">
     
     <?php
