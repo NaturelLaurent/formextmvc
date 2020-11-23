@@ -88,7 +88,8 @@ class SqlService
     {
     //      $request = "DELETE * FROM ".$nameTable;
     //    $users = $this->connection->query($request);
-      // requete en cours de réalisation
+    
+    // requete en cours de réalisation
      
     }
 }
