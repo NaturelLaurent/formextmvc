@@ -15,6 +15,16 @@ class AbstractContoller
 
         require(dirname(__DIR__).'/templates/'.$_nomTPL.'.php');
 
-   exit();
+  
+    }
+
+    public function redirectTo(string $url, int $statusCode = 303 )
+    {
+       
+        header('Location: '.$url, true, $statusCode);
+        
+       
+
+  
     }
 }

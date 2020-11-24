@@ -22,15 +22,15 @@
     <?php
 
     echo ' <h3>Formulaire de creation personne</h3><br>';
-    echo '<form action="/addPersonne" method="post">
+    echo '<form action="/userModif?id='.$userCourant->id.'" method="post">
     <div class="form-row">
       <div class="col-md-4 mb-3">
         <label for="validationDefault01">Nom</label>
-        <input type="text" class="form-control"  name ="nom" id="validationDefault01" placeholder="Nom"  required>
+        <input type="text" class="form-control"name ="nom" id="validationDefault01" placeholder="Nom"  required value = '.$userCourant->nom .'>
       </div>
       <div class="col-md-4 mb-3">
         <label for="validationDefault02">Prenom</label>
-        <input type="text" class="form-control" name ="prenom" id="validationDefault02" placeholder="Prenom"  required>
+        <input type="text" class="form-control" name ="prenom" id="validationDefault02" placeholder="Prenom"  required value = '.$userCourant->prenom .'>
       </div>
       <div class="col-md-4 mb-3">
         <label for="validationDefaultUsername">Email</label>
@@ -38,12 +38,12 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupPrepend2">@</span>
           </div>
-          <input type="text" class="form-control" name ="email" id="validationDefaultUsername" placeholder="Email" aria-describedby="inputGroupPrepend2" required>
+          <input type="text" class="form-control" name ="email" id="validationDefaultUsername" placeholder="Email" aria-describedby="inputGroupPrepend2" required value = '.$userCourant->email .'>
         </div>
       </div>
     </div>  
     
-    <button class="btn btn-primary" type="submit">Enregistrer</button>
+    <button class="btn btn-primary" type="submit">Modifier utilisateur</button>
   </form> ';
   
     ?>

@@ -15,17 +15,9 @@ class EntityManager
 
     public function flush ($entity)
     {
-       $arr = new ArrayObject($entity);
-       $className = get_class($entity);  
+      
        $tableName = EntityManager::entityName($entity);
-
-        $entityTab = array();
-
-        foreach ($arr->getArrayCopy() as $key => $value) {        
-          $prop =trim(substr($key, strlen($className)+1));
-         $entityTab[$prop]   = $value;
-           
-        }
+        $entityTab = EntityManager::entityToTab($entity);     
       
         
         $this->sql->insert( $entityTab,  $tableName);
@@ -38,6 +30,14 @@ class EntityManager
         $this->sql->remove( $tableName, $id);
     }
 
+    
+    public function update($entity , int $id)
+    {
+        $tableName = EntityManager::entityName($entity);
+        $entityTab = EntityManager::entityToTab($entity);  
+        $this->sql->update($entityTab, $tableName, $id);   
+    }
+    
     public static function entityName($entity)
     {
         $className = get_class($entity);  
@@ -46,5 +46,19 @@ class EntityManager
         $tableName =strtolower( $tableName);
 
         return  $tableName;
+    }
+    public static function entityToTab($entity)
+    {
+        $arr = new ArrayObject($entity);
+        $className = get_class($entity);  
+        $entityTab = array();
+
+        foreach ($arr->getArrayCopy() as $key => $value) {        
+          $prop =trim(substr($key, strlen($className)+1));
+         $entityTab[$prop]   = $value;
+           
+        }
+
+        return $entityTab ;
     }
 }

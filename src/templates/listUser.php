@@ -34,7 +34,7 @@
           <td>'.$user->prenom.'</td>
           <td>'.$user->email.'</td>
           <td><a href="/userSup?id='.$user->id.'" class="list-group-item list-group-item-action list-group-item-primary">Supprimer</a></td>
-          <td><a href="/" class="list-group-item list-group-item-action list-group-item-primary">Modifier</a></td>
+          <td><a href="/userModif?id='.$user->id.'" class="list-group-item list-group-item-action list-group-item-primary">Modifier</a></td>
        </tr>';
   
       }

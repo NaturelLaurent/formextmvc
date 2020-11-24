@@ -9,7 +9,7 @@ $route = [
     '/addPersonne' => 'App\Controller\AccueilController@addPerson',
     '/listPersonne' => 'App\Controller\AccueilController@listUser',
     '/userSup' => 'App\Controller\AccueilController@userSup',
-    '/page' => 'App\Controller\PageController@addPerson'
+    '/userModif' => 'App\Controller\AccueilController@userModif'
 ];
 
 if (!empty($route[$pathInfo])) {

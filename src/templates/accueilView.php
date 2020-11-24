@@ -28,7 +28,7 @@
               </li>
               <li>
     
-                  <a href="/contact" class="list-group-item list-group-item-action list-group-item-primary">Suprimer l'utilisation</a>
+                  <a href="/addArticle" class="list-group-item list-group-item-action list-group-item-primary">Créer article</a>
               </li>
           </ul>
       </div>

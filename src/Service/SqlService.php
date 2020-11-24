@@ -60,17 +60,16 @@ class SqlService
                 $champ .= $key . ',';
                 $varValeur .= ':' . $key . ',';
             }
-            $param[ $key] = $value;
+            $param[$key] = $value;
         }
-      
+
         $request = "INSERT INTO " . $table . " " . $champ . " VALUES " . $varValeur;
 
-      
+
         try {
             $pre =  $this->connection->prepare($request);
-          
+
             $pre->execute($param);
-           
         } catch (PDOException $e) {
             echo 'Error  ' . $e->getMessage();
         }
@@ -78,32 +77,53 @@ class SqlService
 
     public function fetch($nameTable)
     {
-         $request = "SELECT * FROM ".$nameTable;
-       $users = $this->connection->query($request)->fetchAll(PDO::FETCH_OBJ);
-      
-       return $users;
+        $request = "SELECT * FROM " . $nameTable;
+        $users = $this->connection->query($request)->fetchAll(PDO::FETCH_OBJ);
+
+        return $users;
     }
 
     public function remove(string $nameTable, int $id)
     {
-      
-         $request = "DELETE * FROM user WHERE id= :id";     
-        
-       
-             
-           try {
-               $pre = $this->connection->prepare($request);
-               $param = array('id'=> $id);
-               $pre->execute($param);
-        
-           } catch (PDOException $e) {
-              echo 'Error :'.$e->getMessage();
-           }       
-            
 
-         
-         
-          
-      
+        $request = "DELETE FROM  " . $nameTable . " WHERE id= :id";
+
+
+        try {
+            $pre = $this->connection->prepare($request);
+            $param = array('id' => $id);
+            $pre->execute($param);
+        } catch (PDOException $e) {
+            echo 'Error :' . $e->getMessage();
+        }
+    }
+
+    public function update(array $arrayOject, string $nameTable, int $id)
+    {
+
+        $varValeur = '';
+        $last_key = array_key_last($arrayOject);
+        $param = array();
+
+        foreach ($arrayOject as $key => $value) {
+            if ($key == $last_key) {
+
+                $varValeur .= $key . '=' . ':' . $key . ' ';
+            } else {
+
+                $varValeur .= $key . '=' . ':' . $key . ' ,';
+            }
+            $param[$key] = $value;
+        }
+        $param['id'] = $id;
+        $request = "UPDATE " . $nameTable . " SET " . $varValeur . ' WHERE id=:id';
+
+        try {
+            $pre =  $this->connection->prepare($request);
+
+            $pre->execute($param);
+        } catch (PDOException $e) {
+            echo 'Error  ' . $e->getMessage();
+        }
     }
 }
