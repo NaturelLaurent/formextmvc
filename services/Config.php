@@ -12,27 +12,27 @@ if ($handle) {
 
         if ($envLine[0] == "DB_CONNECTION")
         {
-            $dbConnection = trim($envLine[1]);
+            define('DB_CONNECTION', trim($envLine[1]));   
         }
         if ($envLine[0] == "DB_HOST")
         {
-            $dbHost = trim($envLine[1]);
+            define('DB_HOST', trim($envLine[1]));  
         }
         if ($envLine[0] == "DB_PORT")
         {
-            $dbPort = trim($envLine[1]);
+            define('DB_PORT', trim($envLine[1]));  
         }
         if ($envLine[0] == "DB_DATABASE")
         {
-            $dbDatabase = trim($envLine[1]);
+            define('DB_DATABASE', trim($envLine[1]));
         }
         if ($envLine[0] == "DB_USERNAME")
         {
-            $dbUser = trim($envLine[1]);
+            define('DB_USERNAME', trim($envLine[1]));
         }
         if ($envLine[0] == "DB_PASSWORD")
         {
-            $dbPassword = trim($envLine[1]);
+            define('DB_PASSWORD', trim($envLine[1]));
         }
     }
     if (!feof($handle)) {

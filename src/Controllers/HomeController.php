@@ -27,4 +27,25 @@ class HomeController
             'articles' => $articles
         ]);        
     }
+
+    public function addArticle()
+    {
+       
+        
+        return Redirect('articles');
+    }
+
+    public function modifyArticle(int $id)
+    {
+       
+        return Redirect('articles');
+    }
+
+    public function removeArticle(int $id)
+    {
+
+        Article::find($id)->delete();
+       
+        return Redirect('articles');
+    }
 }

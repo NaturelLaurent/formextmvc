@@ -1,20 +1,29 @@
 <?php
 namespace App;
 
+use PDO;
+use PDOException;
+
 class Tools {
 
     public $db;
 
     public $query;
 
-    public function __construct($type, $table){ 
+    public $id;
+
+    private $field;
+
+    public function __construct($type, $table, ...$value){ 
 
         $this->db       =   Connect::database();
         $this->query    =   null;
         $this->table    =   $table;
         $this->space    =   ' ';
+        $this->id       =   null;
 
-        ($type) ? $this->all() : null;
+        ($type && isset($value[0])) ? $this->$type($value[0]) : null;
+        ($type && !isset($value[0])) ? $this->$type() : null;
 	}
 
     public function all()
@@ -33,6 +42,17 @@ class Tools {
                         $symbole . $this->space .
                         $value2;
 
+        // $this->id       =  $id;
+        // $this->field    =  'id';
+
+        return $this;
+    }
+
+    public function find($value)
+    {
+        $this->id       =   $value;
+        $this->query    =   "WHERE id =";
+
         return $this;
     }
 
@@ -47,5 +67,27 @@ class Tools {
     
         return $this->db->query($this->query);
     }
+
+    public function delete()
+    {
+
+        $delete     =   "DELETE FROM $this->table";
+        $stmt       =   $this->db->prepare("$delete $this->query:id");
+        $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    // public function buildQuery( $get_var ) 
+    // {
+    //     switch($get_var)
+    //     {
+    //         case 1:
+    //             $tbl = $this->table;
+    //             break;
+    //     }
+
+    //     $sql = "DELETE * FROM $tbl";
+    // }
 
 }

@@ -9,6 +9,9 @@
             <?php foreach($articles as $article) { ?>
                 
                 <div class="w-full lg:w-1/2   md:px-4 lg:px-6 py-5">
+                    <div>
+                        <a href="<?= Url('articles/del/' . $article['id']) ?>">X</a>
+                    </div>
                     <div class="bg-white hover:shadow-xl">
                         <div class="">
                             <img src="https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt=""

@@ -6,15 +6,17 @@ use PDOException;
 
 class Connect
 {
+
+
     public static function database()
     {
         try {
-            $db = new PDO(  $GLOBALS['dbConnection'] .':host='. 
-                            $GLOBALS['dbHost'] . ':' . 
-                            $GLOBALS['dbPort'] .';dbname=' . 
-                            $GLOBALS['dbDatabase'], 
-                            $GLOBALS['dbUser'], 
-                            $GLOBALS['dbPassword']
+            $db = new PDO(  DB_CONNECTION .':host='. 
+                            DB_HOST . ':' . 
+                            DB_PORT .';dbname=' . 
+                            DB_DATABASE, 
+                            DB_USERNAME, 
+                            DB_PASSWORD
                         );
            
             return $db;
