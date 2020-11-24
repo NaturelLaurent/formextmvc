@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use App\Service\SqlService;
 
 class AccueilController extends AbstractController
 {
@@ -11,7 +12,6 @@ class AccueilController extends AbstractController
     public function index()
     {
     
-        $this->bddconnect();
         $this->render('accueilView', [
 
         ]);
