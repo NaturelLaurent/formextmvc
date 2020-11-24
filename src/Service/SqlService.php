@@ -86,10 +86,24 @@ class SqlService
 
     public function remove(string $nameTable, int $id)
     {
-    //      $request = "DELETE * FROM ".$nameTable;
-    //    $users = $this->connection->query($request);
-    
-    // requete en cours de réalisation
-     
+      
+         $request = "DELETE * FROM user WHERE id= :id";     
+        
+       
+             
+           try {
+               $pre = $this->connection->prepare($request);
+               $param = array('id'=> $id);
+               $pre->execute($param);
+        
+           } catch (PDOException $e) {
+              echo 'Error :'.$e->getMessage();
+           }       
+            
+
+         
+         
+          
+      
     }
 }
