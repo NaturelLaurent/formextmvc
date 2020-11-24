@@ -2,128 +2,55 @@
 
 namespace App\Service;
 
-use Exception;
 use PDO;
-use PDOException;
 
 class SqlService
 {
-    protected $dsn = 'mysql:dbname=formation_php;host=127.0.0.1';
-    protected $userName = 'root';
     private $connection;
     private static $instance;
 
     private function __construct()
     {
-        try {
-
-            $this->connection = new PDO(
-                $this->dsn,
-                $this->userName,
-                '',
-                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
-            );
-        } catch (PDOException $e) {
-            echo 'Echec de la connexion : ' . $e->getMessage();
-        }
+        $this->connection = new PDO(
+            'mysql:host=' . DB['serveur'] . ';dbname=' . DB['nomDeLaBase'] . ';charset=utf8',
+            DB['login'], DB['password'],
+            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }
 
-    public static function getInstance(): SqlService
+    public static function getInstance(): self
     {
         if (!SqlService::$instance) {
-            SqlService::$instance = new SqlService();
+            SqlService::$instance = new self();
         }
 
         return SqlService::$instance;
     }
 
-    /**
-     * Get the value of connection
-     */
-    public function getConnection()
+    public function query(string $sql, array $param = [], $limit = 0)
     {
-        return $this->connection;
+        if ($limit) {
+            $sql .= ' limit ' . (int)$limit;
+        }
+
+        $prep = $this->connection->prepare($sql);
+        $prep->execute($param);
+
+        return $prep;
     }
 
-    public function insert(array $arrayOject, string $table)
+    public function lastInsertId(): int
     {
-        $champ = '(';
-        $varValeur = '(';
-        $last_key = array_key_last($arrayOject);
-        $param = array();
-
-        foreach ($arrayOject as $key => $value) {
-            if ($key == $last_key) {
-                $champ .= $key . ')';
-                $varValeur .= ':' . $key . ');';
-            } else {
-                $champ .= $key . ',';
-                $varValeur .= ':' . $key . ',';
-            }
-            $param[$key] = $value;
-        }
-
-        $request = "INSERT INTO " . $table . " " . $champ . " VALUES " . $varValeur;
-
-
-        try {
-            $pre =  $this->connection->prepare($request);
-
-            $pre->execute($param);
-        } catch (PDOException $e) {
-            echo 'Error  ' . $e->getMessage();
-        }
+        return $this->connection->lastInsertId();
     }
 
-    public function fetch($nameTable)
+    public function fetch(string $sql, array $param = [], $limit = 0): ?array
     {
-        $request = "SELECT * FROM " . $nameTable;
-        $users = $this->connection->query($request)->fetchAll(PDO::FETCH_OBJ);
-
-        return $users;
+        $rez = $this->query($sql, $param, $limit)->fetch(PDO::FETCH_ASSOC);
+        return $rez ?: null;
     }
 
-    public function remove(string $nameTable, int $id)
+    public function fetchAll(string $sql, array $param = [], $limit = 0): array
     {
-
-        $request = "DELETE FROM  " . $nameTable . " WHERE id= :id";
-
-
-        try {
-            $pre = $this->connection->prepare($request);
-            $param = array('id' => $id);
-            $pre->execute($param);
-        } catch (PDOException $e) {
-            echo 'Error :' . $e->getMessage();
-        }
-    }
-
-    public function update(array $arrayOject, string $nameTable, int $id)
-    {
-
-        $varValeur = '';
-        $last_key = array_key_last($arrayOject);
-        $param = array();
-
-        foreach ($arrayOject as $key => $value) {
-            if ($key == $last_key) {
-
-                $varValeur .= $key . '=' . ':' . $key . ' ';
-            } else {
-
-                $varValeur .= $key . '=' . ':' . $key . ' ,';
-            }
-            $param[$key] = $value;
-        }
-        $param['id'] = $id;
-        $request = "UPDATE " . $nameTable . " SET " . $varValeur . ' WHERE id=:id';
-
-        try {
-            $pre =  $this->connection->prepare($request);
-
-            $pre->execute($param);
-        } catch (PDOException $e) {
-            echo 'Error  ' . $e->getMessage();
-        }
+        return $this->query($sql, $param, $limit)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
