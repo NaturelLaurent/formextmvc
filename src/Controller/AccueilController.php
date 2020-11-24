@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\User;
 use App\Repository;
 use App\Repository\UserRepository;
@@ -63,7 +64,6 @@ class AccueilController extends AbstractContoller
       $em = new EntityManager();
       $em->update($user, $request['id']);
       $this->redirectTo('/listPersonne');
-      
     } else {
       $rep = new UserRepository();
       $users = $rep->getUserRepository();
@@ -77,5 +77,12 @@ class AccueilController extends AbstractContoller
         'userCourant' => $userCourant
       ]);
     }
+  }
+
+  public function addArticle(array $request)
+  {
+
+
+    $this->render('formAddArticle');
   }
 }
