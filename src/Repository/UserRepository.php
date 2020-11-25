@@ -1,34 +1,57 @@
 <?php
+
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Service\SqlService;
 use PDO;
+use PDOException;
 
 class UserRepository
 {
-    private $bddconnected;
-    private $servername = "localhost";
-    private $dbname = "mvcphp";
-    private $login = "mvcphp";
-    private $pass = "qnVkH2AuTRjxDlBi";
 
-    public function __construct()
-    {
-        
-         $this->bddconnected = new PDO('mysql:host='.$this->servername.';dbname='.$this->dbname.';charset=utf8', $this->login, $this->pass,
-         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            
-    }
 
     public function findAll()
     {
-        $this->bddconnected;
-        $bdd = $this->bddconnected;
-        $users = $bdd->prepare('SELECT * FROM user');
-        $users->execute();
+        $bdd = SqlService::getInstance();
+        $users = $bdd->fetchAll('SELECT * FROM user');
 
         return $users;
-       
     }
+    public function add($nom, $prenom, $email, $password, $typeuser)
+    {
+        try {
 
+            $bdd = SqlService::getInstance();
+            $bdd->query("INSERT INTO
+                                    user (nom, prenom, email, password, typeuser)
+                                    VALUES ('$nom','$prenom','$email','$password','$typeuser')");
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function find($id)
+    {
+        $bdd = SqlService::getInstance();
+        $user = $bdd->fetch("SELECT * FROM
+                                            user
+                                            WHERE id = '$id'");
+        return $user;
+    }
+    public function edit($id, $nom, $prenom, $email, $password, $typeuser)
+    {
+        try {
+
+            $bdd = SqlService::getInstance();
+            $bdd->query("UPDATE user SET
+                                            nom = '$nom',
+                                            prenom = '$prenom',
+                                            email = '$email',
+                                            password = '$password',
+                                            typeuser = '$typeuser'
+                                            WHERE id = '$id'");
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }

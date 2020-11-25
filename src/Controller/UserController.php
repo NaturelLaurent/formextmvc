@@ -1,22 +1,37 @@
 <?php
+
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 
 class UserController extends AbstractController
 {
-    public function __construct()
-    {
-       
-    }
+  public function __construct()
+  {
+  }
 
-    public function index()
+  public function index()
+  { 
+    $usersList = [];
+    $repo = new UserRepository;
+    $users = $repo->findAll();
+
+    foreach($users as $users)
     {
-        $repo = new UserRepository;
-        $users = $repo->findAll();
-        var_dump($users);
-        $this->render('usersView', [
-          
-        ]);
+      $id = $users['id'];
+      $nom = $users['nom'];
+      $prenom = $users['prenom'];
+      $email = $users['email'];
+      $user = new User();
+      $user->setId($id)->setName($nom)->setPrenom($prenom)->setEmail($email);
+      array_push($usersList, $user);
     }
+    
+    //$users = affiche($users);
+
+    $this->render('usersView', [
+      'users' => $usersList
+    ]);
+  }
 }

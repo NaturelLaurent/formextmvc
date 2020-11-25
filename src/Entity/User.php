@@ -3,12 +3,29 @@ namespace App\Entity;
 
 class User
 {
+    private int $id;
     private string $name;
     private string $prenom;
     private string $email;
     private string $password;
     private int $typeuser;
 
+
+ /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    /**
+     * @param string $id
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;   
+    }
 
     /**
      * @return string
