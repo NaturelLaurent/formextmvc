@@ -83,6 +83,7 @@ class SqlService
         return $users;
     }
 
+    
     public function remove(string $nameTable, int $id)
     {
 

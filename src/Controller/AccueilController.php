@@ -21,9 +21,9 @@ class AccueilController extends AbstractContoller
         ->setPrenom($request['prenom']);
       $em = new EntityManager();
       $em->flush($user);
-      $this->redirectTo('/listPersonne');
+     // $this->redirectTo('/listPersonne');
     } else {
-      $this->render('formAddPersonne');
+     // $this->render('formAddPersonne');
     }
   }
 
@@ -32,25 +32,18 @@ class AccueilController extends AbstractContoller
 
     $rep = new UserRepository();
     $users = $rep->getUserRepository();
-
-    $this->render('listUser', [
-      'listUser' => $users
-    ]);
+    echo json_encode($users);
+    
   }
 
-  public function accueil()
-  {
-
-
-    $this->render('accueilView');
-  }
+ 
 
   public function userSup(array $request)
   {
     $user = new User();
     $em  = new EntityManager();
     $em->delete($user, $request['id']);
-    $this->redirectTo('/listPersonne');
+   // $this->redirectTo('/listPersonne');
   }
 
   public function userModif(array $request)
@@ -63,7 +56,7 @@ class AccueilController extends AbstractContoller
 
       $em = new EntityManager();
       $em->update($user, $request['id']);
-      $this->redirectTo('/listPersonne');
+      //$this->redirectTo('/listPersonne');
     } else {
       $rep = new UserRepository();
       $users = $rep->getUserRepository();
@@ -73,16 +66,31 @@ class AccueilController extends AbstractContoller
           $userCourant = $user;
         }
       }
-      $this->render('formModifPerson', [
-        'userCourant' => $userCourant
-      ]);
+      // $this->render('formModifPerson', [
+      //   'userCourant' => $userCourant
+      // ]);
     }
   }
 
   public function addArticle(array $request)
   {
 
+ // Pas encore implementé
+  
+  }
 
-    $this->render('formAddArticle');
+  public function getUtilisateur(array $request){
+
+    $rep = new UserRepository();
+    $users = $rep->getUserRepository();
+    $userCourant = null;
+    foreach ($users as $user) {
+      if ($user->id == $request['id']) {
+        $userCourant = $user;
+      }
+    }
+    if ($userCourant == null) {
+     echo 'Cet utilisateur n\'existe pas !!!!';
+    }else    echo json_encode($userCourant);
   }
 }
