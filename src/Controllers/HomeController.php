@@ -21,6 +21,7 @@ class HomeController
     public function articles()
     {
        
+       
         $articles        =   Article::all()->get();
        
         return View('articles', [

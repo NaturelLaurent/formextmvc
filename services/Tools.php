@@ -15,7 +15,7 @@ class Tools {
     private $field;
 
     public function __construct($type, $table, ...$value){ 
-
+        
         $this->db       =   Connect::database();
         $this->query    =   null;
         $this->table    =   $table;
@@ -24,6 +24,7 @@ class Tools {
 
         ($type && isset($value[0])) ? $this->$type($value[0]) : null;
         ($type && !isset($value[0])) ? $this->$type() : null;
+
 	}
 
     public function all()

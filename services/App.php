@@ -1,7 +1,8 @@
 <?php
 
 require dirname(__DIR__) . '/services/Config.php';
-require dirname(__DIR__) . '/routes/Web.php';
+require dirname(__DIR__) . '/routes/web.php';
+require dirname(__DIR__) . '/routes/api.php';
 
 
 function View($view, array ...$datas) {
