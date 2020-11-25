@@ -35,3 +35,21 @@ a{
     text-decoration: none;
     color: black;
 }
+.userContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20%;
+    height: 200px;
+    margin: 20px;
+    background-color: rgb(169, 95, 179);
+}
+.userContainer>p{
+    margin-left: 20%;
+}
+#contain{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

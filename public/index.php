@@ -9,11 +9,16 @@ $routing = $router->chekerUrl();
 
 $router->add($routing[0], $routing[1].'@'.$routing[2], null, $routing[3]);
 
+$router->run();
+
+
+
+
+
 //$router->get('/articles', function(){ echo 'Tous les articles';});
 
 // $router->get('/article/:id', function($id){ echo 'Voir l\'article'.$id;});
 
 // $router->post('/article/:id', function($id){ echo 'poster l\'article'.$id;});
 
-$router->run();
 

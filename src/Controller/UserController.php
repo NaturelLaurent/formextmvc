@@ -25,7 +25,14 @@ class UserController extends AbstractController
       $email = $users['email'];
       $user = new User();
       $user->setId($id)->setName($nom)->setPrenom($prenom)->setEmail($email);
-      array_push($usersList, $user);
+
+      array_push($usersList,'<div class="userContainer">
+                                <p> id :'.$id.'</p>'.'
+                                <p> Nom : '.$nom.'</p>'.
+                                '<p> prenom : '.$prenom.'</p>'.
+                                '<p> email : '.$email.'</p>
+                                <button><a href="/useredit/'.$id.'">Modifier</a></button>
+                              </div>');
     }
     
     //$users = affiche($users);
@@ -33,5 +40,9 @@ class UserController extends AbstractController
     $this->render('usersView', [
       'users' => $usersList
     ]);
+  }
+  public function edit($id){
+    echo "je suis sur edit ".$id;
+
   }
 }

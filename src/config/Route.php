@@ -37,8 +37,8 @@ class Route
 
             return call_user_func_array([$controller, $params[1]], $this->matches);
 
-            // $methode = $params[1];
-            // return $controller->$methode();
+            $methode = $params[1];
+            return $controller->$methode();
 
         } else{
 

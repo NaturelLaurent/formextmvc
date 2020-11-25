@@ -3,8 +3,11 @@ require 'base.php';
 ?>
 
 Voir tous les users
-<?php
-echo $users->getPrenom();
-?>
+<div id="contain">
+    <?php
+    echo implode($users);
+    ?>
+</div>
 </body>
+
 </html>

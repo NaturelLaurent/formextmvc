@@ -33,6 +33,13 @@
             "controller": "User",
             "methode": "add",
             "type": "POST"
+        },
+    "userEdit":
+        {
+            "path":"/useredit",
+            "controller": "User",
+            "methode": "edit",
+            "type": "POST"
         }
         
 }
