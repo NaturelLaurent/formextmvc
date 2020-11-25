@@ -21,10 +21,8 @@ class AccueilController extends AbstractContoller
         ->setPrenom($request['prenom']);
       $em = new EntityManager();
       $em->flush($user);
-     // $this->redirectTo('/listPersonne');
-    } else {
-     // $this->render('formAddPersonne');
-    }
+      echo 'Utilisateur du nom: '.$request['nom'].' est ajouté';
+    } 
   }
 
   public function listUser()
@@ -43,7 +41,7 @@ class AccueilController extends AbstractContoller
     $user = new User();
     $em  = new EntityManager();
     $em->delete($user, $request['id']);
-   // $this->redirectTo('/listPersonne');
+    echo 'Utilisateur identifier par l\'id : '.$request['id'].' est supprimé';
   }
 
   public function userModif(array $request)
