@@ -70,7 +70,6 @@ class SqlService
             $pre =  $this->connection->prepare($request);
 
             $pre->execute($param);
-            
         } catch (PDOException $e) {
             echo 'Error  ' . $e->getMessage();
         }
@@ -84,21 +83,8 @@ class SqlService
         return $users;
     }
 
-    
     public function remove(string $nameTable, int $id)
-    {  
-       $users =  SqlService::getInstance()->fetch($nameTable);
-        $userCourant = null;
-        foreach ($users as $user) {
-          if ($user->id == $id) {
-            $userCourant = $user;
-          }
-        }
-        if ($userCourant == null) {
-         echo 'Cet utilisateur n\'existe pas, impossible de le supprimer !!!!';
-         die();
-        }
-      
+    {
 
         $request = "DELETE FROM  " . $nameTable . " WHERE id= :id";
 
@@ -108,6 +94,7 @@ class SqlService
             $param = array('id' => $id);
             $pre->execute($param);
         } catch (PDOException $e) {
+
             echo 'Error :' . $e->getMessage();
         }
     }

@@ -27,13 +27,14 @@ class EntityManager
     public function delete($entity , int $id)
     {
         $tableName = EntityManager::entityName($entity);
+      
         $this->sql->remove( $tableName, $id);
     }
 
     
     public function update($entity , int $id)
     {
-        $tableName = EntityManager::entityName($entity);
+        $tableName = EntityManager::entityName($entity);      
         $entityTab = EntityManager::entityToTab($entity);  
         $this->sql->update($entityTab, $tableName, $id);   
     }

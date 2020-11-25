@@ -21,8 +21,10 @@ class AccueilController extends AbstractContoller
         ->setPrenom($request['prenom']);
       $em = new EntityManager();
       $em->flush($user);
-      echo 'Utilisateur du nom: '.$request['nom'].' est ajouté';
-    } 
+      $this->json([
+        'succes' => 'Utilisateur du nom: ' . $request['nom'] . ' à été ajouté'
+      ], 200);
+    }
   }
 
   public function listUser()
@@ -30,18 +32,36 @@ class AccueilController extends AbstractContoller
 
     $rep = new UserRepository();
     $users = $rep->getUserRepository();
-    echo json_encode($users);
-    
+
+    $this->json($users, 200);
   }
 
- 
+
 
   public function userSup(array $request)
   {
-    $user = new User();
-    $em  = new EntityManager();
-    $em->delete($user, $request['id']);
-    echo 'Utilisateur identifier par l\'id : '.$request['id'].' est supprimé';
+
+    $rep = new UserRepository();
+
+    $users = $rep->getUserRepository();
+    $userCourant = null;
+    foreach ($users as $user) {
+      if ($user->id == $request['id']) {
+        $userCourant = $user;
+      }
+    }
+    if ($userCourant == null) {
+      $this->json([
+        'error' => 'Utilisateur identifier par l\'id : ' . $request['id'] . ' non existant dans la base de donnée !!'
+      ], 400);
+    } else {
+      $em  = new EntityManager();
+      $user = new User();
+      $em->delete($user, $request['id']);
+      $this->json([
+        'succes' => 'Utilisateur identifier par l\'id : ' . $request['id'] . ' est supprimé'
+      ], 200);
+    }
   }
 
   public function userModif(array $request)
@@ -54,41 +74,39 @@ class AccueilController extends AbstractContoller
 
       $em = new EntityManager();
       $em->update($user, $request['id']);
-      //$this->redirectTo('/listPersonne');
-    } else {
-      $rep = new UserRepository();
-      $users = $rep->getUserRepository();
-      $userCourant = null;
-      foreach ($users as $user) {
-        if ($user->id == $request['id']) {
-          $userCourant = $user;
-        }
-      }
-      // $this->render('formModifPerson', [
-      //   'userCourant' => $userCourant
-      // ]);
+
+      $this->json([
+        'succes' => 'Utilisateur du nom: ' . $request['nom'] . ' est modifié'
+      ], 200);
     }
   }
 
   public function addArticle(array $request)
   {
 
- // Pas encore implementé
-  
+    // Pas encore implementé
+
   }
 
-  public function getUtilisateur(array $request){
+  public function getUtilisateur(array $request)
+  {
 
     $rep = new UserRepository();
     $users = $rep->getUserRepository();
     $userCourant = null;
+
     foreach ($users as $user) {
       if ($user->id == $request['id']) {
         $userCourant = $user;
       }
     }
+
     if ($userCourant == null) {
-     echo 'Cet utilisateur n\'existe pas !!!!';
-    }else    echo json_encode($userCourant);
+      $this->json([
+        'error' => 'Utilisateur identifier par l\'id : ' . $request['id'] . ' non existant dans la base de donnée !!'
+      ], 400);
+    } else {
+      $this->json($userCourant, 200);
+    }
   }
 }
