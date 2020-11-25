@@ -23,7 +23,7 @@ class AbstractContoller
        
         header('Location: '.$url, true, $statusCode);
         
-       
+       die();
 
   
     }
