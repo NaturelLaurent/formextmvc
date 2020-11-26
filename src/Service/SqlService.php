@@ -12,7 +12,7 @@ class SqlService
     private function __construct()
     {
         $this->connection = new PDO(
-            'mysql:host=' . DB['serveur'] . ';dbname=' . DB['nomDeLaBase'] . ';charset=utf8',
+            'mysql:host=' . DB['serveur'] . ';dbname=' . DB['nameDb'] . ';charset=utf8',
             DB['login'], DB['password'],
             array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }

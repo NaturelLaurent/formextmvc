@@ -1,8 +1,8 @@
 <?php
 
 const DB = [
-    'login' => '',
-    'password' => '',
+    'login' => 'api_php',
+    'password' => 'qnVkH2AuTRjxDlBi',
     'serveur' => 'localhost',
-    'nameDb' => ''
+    'nameDb' => 'api_php'
 ];
