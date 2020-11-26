@@ -31,9 +31,9 @@ class AccueilController extends AbstractContoller
   {
 
     $rep = new UserRepository();
-    $users = $rep->getUserRepository();
-
-    $this->json($users, 200);
+    $users = $rep->getUserRepository();   
+    
+    $this->json($users, 200, JSON_UNESCAPED_UNICODE );
   }
 
 
@@ -46,7 +46,7 @@ class AccueilController extends AbstractContoller
     $users = $rep->getUserRepository();
     $userCourant = null;
     foreach ($users as $user) {
-      if ($user->id == $request['id']) {
+      if ($user['id'] == $request['id']) {
         $userCourant = $user;
       }
     }
@@ -96,7 +96,7 @@ class AccueilController extends AbstractContoller
     $userCourant = null;
 
     foreach ($users as $user) {
-      if ($user->id == $request['id']) {
+      if ($user['id'] == $request['id']) {
         $userCourant = $user;
       }
     }

@@ -15,10 +15,9 @@ class UserRepository
  }
 
   public function getUserRepository()
-  {
-   $sql = SqlService::getInstance();
+  {   
    $nameTable = 'user';
-   $user = $sql->fetch($nameTable);
+   $user =$this->sql ->fetch($nameTable);
    
     return $user;
   }

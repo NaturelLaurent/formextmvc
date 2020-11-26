@@ -24,7 +24,7 @@ class AbstractContoller
         die();
     }
 
-    public function json(?array $json, int $status): void
+    public function json( $json, int $status, $param = JSON_FORCE_OBJECT): void
     {
         header('Content-Type: application/json; charset=utf-8');
 
@@ -32,7 +32,7 @@ class AbstractContoller
             http_response_code($status);
         }
 
-        echo json_encode($json,  JSON_FORCE_OBJECT);
+        echo json_encode($json,  $param);
         die();
     }
 }

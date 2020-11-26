@@ -78,7 +78,7 @@ class SqlService
     public function fetch($nameTable)
     {
         $request = "SELECT * FROM " . $nameTable;
-        $users = $this->connection->query($request)->fetchAll(PDO::FETCH_OBJ);
+        $users = $this->connection->query($request)->fetchAll(PDO::FETCH_ASSOC);
 
         return $users;
     }
