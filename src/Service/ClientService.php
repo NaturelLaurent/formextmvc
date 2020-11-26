@@ -48,7 +48,16 @@ class ClientService
        
     }
 
-    public function update(int $id)
+    public function update($entity, int $id)
     {
+        var_dump($entity->getNom());
+        $response = $this->client->post('person/'.$id,[
+            'form_params'=>[
+                'nom'=> $entity->getNom(),
+                'prenom'=> $entity->getPrenom(),
+                'email'=> $entity->getEmail(),
+
+            ]
+        ]);
     }
 }

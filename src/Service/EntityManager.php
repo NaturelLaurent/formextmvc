@@ -13,6 +13,7 @@ class EntityManager
             $this->clientService = new ClientService();
         }
     
+        // ok
     public function flush ($entity)
     {        
       
@@ -28,12 +29,12 @@ class EntityManager
     }
 
     
-    // public function update(int $id)
-    // {
+    public function update($entity, int $id)
+    {
      
          
-    //     $this->clientService->update($id);   
-    // }    
+        $this->clientService->update($entity,$id);   
+    }    
     
    
 }
