@@ -7,58 +7,33 @@ use ArrayObject;
 class EntityManager 
 
 {
-    protected SqlService $sql;
+    protected ClientService $clientService;
 
          function __construct() {
-            $this->sql = SqlService::getInstance();
+            $this->clientService = new ClientService();
         }
-
+    
     public function flush ($entity)
-    {
+    {        
       
-       $tableName = EntityManager::entityName($entity);
-        $entityTab = EntityManager::entityToTab($entity);     
-      
-        
-        $this->sql->insert( $entityTab,  $tableName);
+        $this->clientService->insert($entity);
 
     }
 
-    public function delete($entity , int $id)
+    //ok
+    public function delete( int $id)
     {
-        $tableName = EntityManager::entityName($entity);
-        $this->sql->remove( $tableName, $id);
+       
+        $this->clientService->remove( $id);
     }
 
     
-    public function update($entity , int $id)
-    {
-        $tableName = EntityManager::entityName($entity);
-        $entityTab = EntityManager::entityToTab($entity);  
-        $this->sql->update($entityTab, $tableName, $id);   
-    }
+    // public function update(int $id)
+    // {
+     
+         
+    //     $this->clientService->update($id);   
+    // }    
     
-    public static function entityName($entity)
-    {
-        $className = get_class($entity);  
-        $tableName = explode("\\",$className);
-        $tableName = array_pop( $tableName);
-        $tableName =strtolower( $tableName);
-
-        return  $tableName;
-    }
-    public static function entityToTab($entity)
-    {
-        $arr = new ArrayObject($entity);
-        $className = get_class($entity);  
-        $entityTab = array();
-
-        foreach ($arr->getArrayCopy() as $key => $value) {        
-          $prop =trim(substr($key, strlen($className)+1));
-         $entityTab[$prop]   = $value;
-           
-        }
-
-        return $entityTab ;
-    }
+   
 }

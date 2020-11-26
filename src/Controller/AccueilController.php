@@ -29,12 +29,11 @@ class AccueilController extends AbstractContoller
 
   public function listUser()
   {
-
     $rep = new UserRepository();
     $users = $rep->getUserRepository();
-
+    
     $this->render('listUser', [
-      'listUser' => $users
+      'users' => $users
     ]);
   }
 
@@ -47,36 +46,35 @@ class AccueilController extends AbstractContoller
 
   public function userSup(array $request)
   {
-    $user = new User();
     $em  = new EntityManager();
-    $em->delete($user, $request['id']);
+    $em->delete($request['id']);
     $this->redirectTo('/listPersonne');
   }
 
   public function userModif(array $request)
   {
-    if (!empty($request['nom']) && !empty($request['prenom']) && !empty($request['email'])) {
-      $user = new User();
-      $user->setNom($request['nom'])
-        ->setEmail($request['email'])
-        ->setPrenom($request['prenom']);
+    // if (!empty($request['nom']) && !empty($request['prenom']) && !empty($request['email'])) {
+    //   $user = new User();
+    //   $user->setNom($request['nom'])
+    //     ->setEmail($request['email'])
+    //     ->setPrenom($request['prenom']);
 
-      $em = new EntityManager();
-      $em->update($user, $request['id']);
-      $this->redirectTo('/listPersonne');
-    } else {
-      $rep = new UserRepository();
-      $users = $rep->getUserRepository();
-      $userCourant = null;
-      foreach ($users as $user) {
-        if ($user->id == $request['id']) {
-          $userCourant = $user;
-        }
-      }
-      $this->render('formModifPerson', [
-        'userCourant' => $userCourant
-      ]);
-    }
+    //   $em = new EntityManager();
+    //   $em->update($user, $request['id']);
+    //   $this->redirectTo('/listPersonne');
+    // } else {
+    //   $rep = new UserRepository();
+    //   $users = $rep->getUserRepository();
+    //   $userCourant = null;
+    //   foreach ($users as $user) {
+    //     if ($user->id == $request['id']) {
+    //       $userCourant = $user;
+    //     }
+    //   }
+    //   $this->render('formModifPerson', [
+    //     'userCourant' => $userCourant
+    //   ]);
+    // }
   }
 
   public function addArticle(array $request)

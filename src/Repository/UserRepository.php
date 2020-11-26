@@ -3,24 +3,25 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Service\SqlService;
+use App\Service\ClientService;
+
 
 class UserRepository
 {
-  protected SqlService $sql;
+  protected ClientService $clientService;
  
   function __construct() {
-     $this->sql = SqlService::getInstance();
+     $this->clientService = new ClientService();
     
  }
 
+
   public function getUserRepository()
   {
-   $sql = SqlService::getInstance();
-   $nameTable = 'user';
-   $user = $sql->fetch($nameTable);
-   
-    return $user;
+  
+   $user =  $this->clientService->fetch(); 
+    
+    return json_decode($user, false);
   }
    
 }

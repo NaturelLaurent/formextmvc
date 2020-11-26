@@ -27,7 +27,7 @@
   <tbody>
     <?php
 
-      foreach ( $listUser as $user) {
+      foreach ( $users as $user) {
        echo 
        '<tr>   
           <td>'.$user->nom.'</td>
