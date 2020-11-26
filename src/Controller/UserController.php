@@ -26,13 +26,7 @@ class UserController extends AbstractController
       $user = new User();
       $user->setId($id)->setName($nom)->setPrenom($prenom)->setEmail($email);
 
-      array_push($usersList,'<div class="userContainer">
-                                <p> id :'.$id.'</p>'.'
-                                <p> Nom : '.$nom.'</p>'.
-                                '<p> prenom : '.$prenom.'</p>'.
-                                '<p> email : '.$email.'</p>
-                                <button><a href="/useredit/'.$id.'">Modifier</a></button>
-                              </div>');
+      array_push($usersList, $user);
     }
     
     //$users = affiche($users);

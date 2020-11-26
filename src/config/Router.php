@@ -41,9 +41,9 @@ class Router
 
     public function run()
     {
+        var_dump($_SERVER['REQUEST_METHOD']);
 
-        $this->routes = [$_SERVER['REQUEST_METHOD']];
-        if (!isset($this->routes)) {
+        if (!isset($this->routes[$_SERVER['REQUEST_METHOD']])) {
             throw new RouterException('REQUEST_METHOD does not exist');
         }
         foreach ($this->routes as $route) {
@@ -75,9 +75,11 @@ class Router
         $urlfull = explode("/", $urlfull, 2);
         $urlpath = "/" . $urlfull[0];
         if(isset($urlfull[1])){
-            $urlparam = $urlfull[1];
+            $urlparam = 'id';
+            $key = array_search($urlpath.'/'.$urlparam, array_column($parsed_json, 'path'));
+        }else{
+            $key = array_search($urlpath, array_column($parsed_json, 'path'));
         }
-        $key = array_search($urlpath, array_column($parsed_json, 'path'));
         if ($key === false) {
             throw new RouterException('No route matches in this name');
         }

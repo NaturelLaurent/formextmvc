@@ -36,7 +36,7 @@
         },
     "userEdit":
         {
-            "path":"/useredit",
+            "path":"/useredit/id",
             "controller": "User",
             "methode": "edit",
             "type": "POST"
