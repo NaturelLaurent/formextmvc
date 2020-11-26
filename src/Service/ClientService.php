@@ -29,8 +29,9 @@ class ClientService
 
     public function insert($entity)
     { 
-        $response = $this->client->request('POST','person',[
-            'UrlParam'=>[
+        var_dump($entity->getNom());
+        $response = $this->client->post('person',[
+            'form_params'=>[
                 'nom'=> $entity->getNom(),
                 'prenom'=> $entity->getPrenom(),
                 'email'=> $entity->getEmail(),
