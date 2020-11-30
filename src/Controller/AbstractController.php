@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use JsonSerializable;
+
 class AbstractController
 {
+
     public function json(?array $json, int $status): void
     {
         header('Content-Type: application/json; charset=utf-8');

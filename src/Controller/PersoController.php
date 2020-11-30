@@ -2,31 +2,34 @@
 
 namespace App\Controller;
 
-use App\Entity\Perso;
-use App\Service\SqlService;
-use PDO;
+use App\Repository\PersoRepository;
+
 
 class PersoController extends AbstractController
 {
-    public function findAll(){
-////////////TODO a metre dans un repository//////////
-        $pdo = SqlService::getInstance();
-        $req = $pdo->fetchAll('SELECT * FROM perso');
-///////////////////////////////////////////////////////
-        $persos = [];
-        foreach ($req as $req){
-            $perso = new Perso;
-            $perso
-                ->setId($req['id'])
-                ->setName($req['name'])
-                ->setAge($req['age'])
-                ->setEmail($req['email']);
-            
-            array_push($persos, $perso);
-        }
-///////////////TODO : comprendre pour quoi les tab d'objets json sont vide 
-        return $this->json($persos, 200);
+    public function getPersoList(){
 
+        $rep = new PersoRepository;
+        $persos = $rep->data_format($rep->findAll());
+
+        //return $this->json($persos, 200);
+
+    }
+
+    public function getUser($id){
+        var_dump("ok".$id);
+        // $rep = new PersoRepository;
+        // $req = $rep->find($id);
+
+        // foreach ($req as $req){
+        //     $perso = [
+        //         "id" => $req['id'],
+        //         "name" => $req['name'],
+        //         "age" => $req['age'],
+        //         "email" => $req['email']
+        //     ];
+        // } 
+        // return $this->json($perso, 200);
     }
 
 }
