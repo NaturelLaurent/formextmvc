@@ -85,6 +85,6 @@ class UserController extends AbstractController
         $em->remove($user);
         $em->flush();
         
-        return $this->json('l\utilisateur a etait supprimé avec succes', Response::HTTP_OK);
+        return $this->json('l\utilisateur supprimé avec succes', Response::HTTP_OK);
     }
 }

@@ -87,7 +87,7 @@ class Article
 
     public function setAuthor(?User $author): self
     {
-        $this->author = $author;
+        $this->author = $author->getId();
 
         return $this;
     }

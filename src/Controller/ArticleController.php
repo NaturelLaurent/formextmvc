@@ -6,6 +6,7 @@ use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,18 +27,22 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/aticle/new", name="article_new", methods={"GET","POST"})
+     * @Route("/article/new", name="article_new", methods={"POST"})
      */
-    public function new(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em): Response
+    public function new(UserRepository $userRepository,Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em): Response
     {
         try{
             $json = $request->getContent();
             $article = $serializer->deserialize($json, Article::class, 'json');
-    
+            
+            //$id = $article->getAuthor();
+            //$user = $userRepository->find($id);
             $errors = $validator->validate($article);
             if($errors){
                 return $this->json($errors, Response::HTTP_BAD_REQUEST);
             }
+           
+            //$article->setAuthor($user);
             $article->setCreatedAt(new DateTime);
             $em->persist($article);
             $em->flush();
