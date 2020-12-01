@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @Route("/article")
- */
+
 class ArticleController extends AbstractController
 {
     /**
@@ -30,7 +28,7 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/", name="article_new", methods={"POST"})
+     * @Route("/article", name="article_new", methods={"POST"})
      */
     public function new(
         Request $request,
@@ -41,7 +39,7 @@ class ArticleController extends AbstractController
         $json = $request->getContent();
 
         $article = $serialiser->deserialize($json, Article::class, 'json');
-
+      
         $errors = $validator->validate($article);
         if ($errors) {
             return $this->json($errors, Response::HTTP_BAD_REQUEST);
