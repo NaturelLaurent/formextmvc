@@ -11,7 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AbstractController
@@ -21,7 +23,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->json($userRepository->findAll(), Response::HTTP_OK,[], ['groups' => 'user:read']);
+        return $this->json($userRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'user']);
     }
 
     /**
@@ -41,7 +43,18 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->json($user, Response::HTTP_CREATED);
+            return $this->json([
+                "Created" => [
+                    "id" => $user->getId(),
+                    "email" => $user->getEmail()
+                ],
+                "url" => $this->generateUrl(
+                    'user_show',
+                    [
+                        "id" => $user->getId()
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                )], Response::HTTP_CREATED);
         } catch (Exception $e) {
             return $this->json(['db' => 'db incorrect'], Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
@@ -50,18 +63,22 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="user_show", methods={"GET"})
+     * @Route("/user/{id}", name="user_show", methods={"GET"}, requirements={
+     *  "id" = "\d+"
+     * })
      */
     public function show(UserRepository $userRepository, $id): Response
     {
 
-        return $this->json($userRepository->find($id), Response::HTTP_OK);
+        return $this->json($userRepository->find($id), Response::HTTP_OK, [], ['groups' => 'user']);
     }
 
     /**
-     * @Route("/user/{id}", name="user_edit", methods={"PUT"})
+     * @Route("/user/{id}", name="user_edit", methods={"PUT"}, requirements={
+     *  "id" = "\d+"
+     * })
      */
-    public function edit(Request $request, $id, UserRepository $userRepository, SerializerInterface $serializer, UserPasswordEncoderInterface $passEncoder, EntityManagerInterface $em, ValidatorInterface $validator): Response
+    public function edit(Request $request, $id, UserRepository $userRepository, SerializerInterface $serializer, UserPasswordEncoderInterface $passEncoder, EntityManagerInterface $em): Response
     {
         $user = $userRepository->find($id);
         $json = $request->getContent();
@@ -70,11 +87,24 @@ class UserController extends AbstractController
         $user->setEmail($userupdate->getEmail());
         $em->flush();
 
-        return $this->json($user, Response::HTTP_OK);
+        return $this->json([
+            "Modified" => [
+                "id" => $user->getId(),
+                "email" => $user->getEmail()
+            ],
+            "url" => $this->generateUrl(
+                'user_show',
+                [
+                    "id" => $user->getId()
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )], Response::HTTP_OK);
     }
 
     /**
-     * @Route("/user/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/user/{id}", name="user_delete", methods={"DELETE"}, requirements={
+     *  "id" = "\d+"
+     * })
      */
     public function delete(UserRepository $userRepository, EntityManagerInterface $em, $id): Response
     {

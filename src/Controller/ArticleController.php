@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ArticleController extends AbstractController
@@ -51,7 +52,9 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/article/{id}", name="article_show", methods={"GET"})
+     * @Route("/article/{id}", name="article_show", methods={"GET"}, requirements={
+     *  "id" = "\d+"
+     * })
      */
     public function show(ArticleRepository $articleRepository, $id): Response
     {
@@ -59,14 +62,40 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/article/{id}", name="article_edit", methods={"PUT"})
+     * @Route("/article/{id}", name="article_edit", methods={"PUT"}, requirements={
+     *  "id" = "\d+"
+     * })
      */
-    public function edit(Request $request, Article $article) //: Response
+    public function edit($id,Request $request, ArticleRepository $articleRepository, SerializerInterface $serializerInterface, EntityManagerInterface $em) //: Response
     {
+        $article = $articleRepository->find($id);
+        $json = $request->getContent();
+        $articleUpdate = $serializerInterface->deserialize($json, Article::class, 'json');
+        $article->setTitle($articleUpdate->getTitle());
+        $article->setContent($articleUpdate->getContent());
+
+        $em->flush();
+
+        return $this->json([
+            "Modified" => [
+                "id" => $article->getId(),
+                "Title" => $article->getTitle()
+            ],
+            "url" => $this->generateUrl(
+                'article_show',
+                [
+                    "id" => $article->getId()
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )], Response::HTTP_OK);
+
+    
     }
 
     /**
-     * @Route("/article/{id}", name="article_delete", methods={"DELETE"})
+     * @Route("/article/{id}", name="article_delete", methods={"DELETE"}, requirements={
+     *  "id" = "\d+"
+     * })
      */
     public function delete(ArticleRepository $articleRepository, $id, EntityManagerInterface $em): Response
     {

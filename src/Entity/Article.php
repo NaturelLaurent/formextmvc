@@ -5,10 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\Table(name="`article`")
+ * @ApiResource()
+ * 
  */
 class Article
 {
@@ -16,26 +19,31 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("article")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("article")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=1000)
+     * @Groups("article")
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("article")
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles", cascade={"persist"})
+     * @Groups("article")
      */
     private $author;
 

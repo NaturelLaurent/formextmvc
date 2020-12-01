@@ -10,10 +10,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @ApiResource()
+ * 
  * 
  */
 class User implements UserInterface
@@ -22,13 +24,13 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("user:read")
+     * @Groups("user")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups("user:read")
+     *@Groups("user")
      */
     private $email;
 
@@ -42,11 +44,13 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * 
+     * 
      */
     private $password;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author")
+     * @Groups("user")
      * 
      */
     private $articles;
@@ -63,16 +67,16 @@ class User implements UserInterface
         $this->comments = new ArrayCollection();
     }
 
+ 
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
     public function getEmail(): ?string
     {
         return $this->email;
     }
-
     public function setEmail(string $email): self
     {
         $this->email = $email;
