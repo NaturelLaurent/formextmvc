@@ -47,7 +47,7 @@ class Article
     private $categorie;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="article")
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="article", cascade={"remove"})
      */
     private $commentaires;
 

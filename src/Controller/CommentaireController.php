@@ -2,93 +2,87 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
 use App\Repository\CommentaireRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @Route("/commentaire")
- */
+
 class CommentaireController extends AbstractController
 {
     /**
-     * @Route("/", name="commentaire_index", methods={"GET"})
+     * @Route("/commentaire", name="commentaire_index", methods={"GET"})
      */
     public function index(CommentaireRepository $commentaireRepository): Response
     {
-        return $this->render('commentaire/index.html.twig', [
-            'commentaires' => $commentaireRepository->findAll(),
-        ]);
+        return $this->json($commentaireRepository->findAll(), Response::HTTP_OK);
     }
 
-    /**
-     * @Route("/new", name="commentaire_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $commentaire = new Commentaire();
-        $form = $this->createForm(CommentaireType::class, $commentaire);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+    /**
+     * @Route("/commentaire", name="commentaire_new", methods={"POST"})
+     */
+    public function new(
+        Request $request,
+        SerializerInterface $serialiser,
+        ValidatorInterface $validator
+
+    ): Response {
+        $json = $request->getContent();
+
+        $commentaire = $serialiser->deserialize($json, Commentaire::class, 'json');
+
+        $errors = $validator->validate($commentaire);
+        if ($errors) {
+            return $this->json($errors, Response::HTTP_BAD_REQUEST);
+        }
+
+
+        try {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($commentaire);
             $entityManager->flush();
-
-            return $this->redirectToRoute('commentaire_index');
+        } catch (Exception $e) {
+            return $this->json(['message' => $e->getMessage()], Response::HTTP_FORBIDDEN);
         }
 
-        return $this->render('commentaire/new.html.twig', [
-            'commentaire' => $commentaire,
-            'form' => $form->createView(),
-        ]);
+        return $this->json(['message' => "  Commentaire créer"], Response::HTTP_OK);
     }
 
-    /**
-     * @Route("/{id}", name="commentaire_show", methods={"GET"})
-     */
-    public function show(Commentaire $commentaire): Response
-    {
-        return $this->render('commentaire/show.html.twig', [
-            'commentaire' => $commentaire,
-        ]);
-    }
 
     /**
-     * @Route("/{id}/edit", name="commentaire_edit", methods={"GET","POST"})
+     * @Route("commentaire/{id}", name="commentaire_show", methods={"GET"})
      */
-    public function edit(Request $request, Commentaire $commentaire): Response
+    public function show(Commentaire  $commentaire = null, CommentaireRepository $commentaireRepository): Response
     {
-        $form = $this->createForm(CommentaireType::class, $commentaire);
-        $form->handleRequest($request);
+        if ($commentaire) {
+            return $this->json($commentaire, Response::HTTP_OK);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('commentaire_index');
+        }else{
+            return $this->json(['message' => 'Commentaire non trouvé'], Response::HTTP_NOT_FOUND);
         }
-
-        return $this->render('commentaire/edit.html.twig', [
-            'commentaire' => $commentaire,
-            'form' => $form->createView(),
-        ]);
     }
 
+
     /**
-     * @Route("/{id}", name="commentaire_delete", methods={"DELETE"})
+     * @Route("commentaire/{id}", name="commentaire_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Commentaire $commentaire): Response
+    public function delete(Commentaire $commentaire): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$commentaire->getId(), $request->request->get('_token'))) {
+        try {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($commentaire);
             $entityManager->flush();
+        } catch (Exception $e) {
+            return $this->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
 
-        return $this->redirectToRoute('commentaire_index');
+        return $this->json(['message' => "commentaire supprimer"], Response::HTTP_OK);
     }
 }

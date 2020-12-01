@@ -41,7 +41,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user", cascade={"remove"})
      */
     private $articles;
 

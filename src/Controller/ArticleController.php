@@ -5,21 +5,19 @@ namespace App\Controller;
 
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\Article;
-use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/", name="article_index", methods={"GET"})
+     * @Route("/article", name="article_index", methods={"GET"})
      */
     public function index(ArticleRepository $articleRepository): Response
     {
@@ -33,8 +31,8 @@ class ArticleController extends AbstractController
     public function new(
         Request $request,
         SerializerInterface $serialiser,
-        ValidatorInterface $validator,
-        UserPasswordEncoderInterface $encoder
+        ValidatorInterface $validator
+      
     ): Response {
         $json = $request->getContent();
 
@@ -59,24 +57,21 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/{id}", name="article_show", methods={"GET"})
+     * @Route("article/{id}", name="article_show", methods={"GET"})
      */
-    public function show(Article $article,ArticleRepository $articleRepository): Response
+    public function show(Article $article = null ,ArticleRepository $articleRepository): Response
     {
-        try {
-            $user = $articleRepository->findBy(['id'=>$article->getId()]);
-            
-        } catch (Exception $e) {
+        if ($article) {
+            return $this->json($article, Response::HTTP_OK);
+
+        }else{
             return $this->json(['message' => 'Article non trouvé'], Response::HTTP_NOT_FOUND);
         }
-
-       
-            return $this->json($user, Response::HTTP_OK);
     }
 
   
     /**
-     * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     * @Route("article/{id}", name="article_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Article $article): Response
     {
