@@ -33,6 +33,7 @@ class ArticleController extends AbstractController
     {
         try{
             $json = $request->getContent();
+            dd($json);
             $article = $serializer->deserialize($json, Article::class, 'json');
             
             //$id = $article->getAuthor();
