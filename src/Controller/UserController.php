@@ -21,38 +21,36 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->json($userRepository->findAll(), Response::HTTP_OK);
+        return $this->json($userRepository->findAll(), Response::HTTP_OK,[], ['groups' => 'user:read']);
     }
 
     /**
-     * @Route("/newuser", name="user_new", methods={"GET","POST"})
+     * @Route("/user", name="user_new", methods={"POST"})
      */
-    public function new(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em,UserPasswordEncoderInterface $passEncoder): Response
+    public function new(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em, UserPasswordEncoderInterface $passEncoder): Response
     {
-        try{
-        $json = $request->getContent();
-        $user = $serializer->deserialize($json, User::class, 'json');
+        try {
+            $json = $request->getContent();
+            $user = $serializer->deserialize($json, User::class, 'json');
 
-        $errors = $validator->validate($user);
-        if($errors){
-            return $this->json($errors, Response::HTTP_BAD_REQUEST);
+            $errors = $validator->validate($user);
+            if ($errors) {
+                return $this->json($errors, Response::HTTP_BAD_REQUEST);
+            }
+            $user->setPassword($passEncoder->encodePassword($user, $user->getPassword()));
+            $em->persist($user);
+            $em->flush();
+
+            return $this->json($user, Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            return $this->json(['db' => 'db incorrect'], Response::HTTP_FORBIDDEN);
+        } catch (\Exception $e) {
+            return $this->json(['message' => $e->getMessage()], Response::HTTP_FORBIDDEN);
         }
-        $user->setPassword($passEncoder->encodePassword($user, $user->getPassword()));
-        $em->persist($user);
-        $em->flush();
-        
-        return $this->json($user, Response::HTTP_CREATED);
-        
-    } catch (Exception $e) {
-        return $this->json(['db' => 'db incorrect'], Response::HTTP_FORBIDDEN);
-    } catch (\Exception $e) {
-        return $this->json(['message' => $e->getMessage()], Response::HTTP_FORBIDDEN);
-    }
     }
 
     /**
-     * @Route("/user/{id}", name="user_show", methods={"GET"}, requirements={
-     *  "id" = "\d+"})
+     * @Route("/user/{id}", name="user_show", methods={"GET"})
      */
     public function show(UserRepository $userRepository, $id): Response
     {
@@ -61,10 +59,9 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="user_edit", methods={"PUT"}, requirements={
-     *  "id" = "\d+"})
+     * @Route("/user/{id}", name="user_edit", methods={"PUT"})
      */
-    public function edit(Request $request,$id, UserRepository $userRepository, SerializerInterface $serializer, UserPasswordEncoderInterface $passEncoder, EntityManagerInterface $em, ValidatorInterface $validator): Response
+    public function edit(Request $request, $id, UserRepository $userRepository, SerializerInterface $serializer, UserPasswordEncoderInterface $passEncoder, EntityManagerInterface $em, ValidatorInterface $validator): Response
     {
         $user = $userRepository->find($id);
         $json = $request->getContent();
@@ -72,19 +69,20 @@ class UserController extends AbstractController
         $user->setPassword($passEncoder->encodePassword($userupdate, $userupdate->getPassword()));
         $user->setEmail($userupdate->getEmail());
         $em->flush();
-        
+
         return $this->json($user, Response::HTTP_OK);
     }
 
     /**
      * @Route("/user/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function delete(Request $request,UserRepository $userRepository, EntityManagerInterface $em, $id): Response
+    public function delete(UserRepository $userRepository, EntityManagerInterface $em, $id): Response
     {
+
         $user = $userRepository->find($id);
         $em->remove($user);
         $em->flush();
-        
+
         return $this->json('l\utilisateur supprimé avec succes', Response::HTTP_OK);
     }
 }

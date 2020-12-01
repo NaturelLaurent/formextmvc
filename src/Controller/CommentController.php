@@ -16,77 +16,40 @@ class CommentController extends AbstractController
     /**
      * @Route("/comments", name="comment_index", methods={"GET"})
      */
-    public function index(CommentRepository $commentRepository): Response
+    public function index(CommentRepository $commentRepository)//: Response
     {
-        return $this->render('comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
-        ]);
+       
     }
 
     /**
-     * @Route("/comment/new", name="comment_new", methods={"GET","POST"})
+     * @Route("/comment", name="comment_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request)//: Response
     {
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('comment_index');
-        }
-
-        return $this->render('comment/new.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
+        
     }
 
     /**
      * @Route("/comment/{id}", name="comment_show", methods={"GET"})
      */
-    public function show(Comment $comment): Response
+    public function show(Comment $comment)//: Response
     {
-        return $this->render('comment/show.html.twig', [
-            'comment' => $comment,
-        ]);
+        
     }
 
     /**
-     * @Route("/comment/{id}/edit", name="comment_edit", methods={"GET","POST"})
+     * @Route("/comment/{id}", name="comment_edit", methods={"PUT"})
      */
-    public function edit(Request $request, Comment $comment): Response
+    public function edit(Request $request, Comment $comment)//: Response
     {
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('comment_index');
-        }
-
-        return $this->render('comment/edit.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
+    
     }
 
     /**
      * @Route("/comment/{id}", name="comment_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Comment $comment): Response
+    public function delete(Request $request, Comment $comment)//: Response
     {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($comment);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('comment_index');
+    
     }
 }

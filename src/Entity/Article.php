@@ -35,7 +35,7 @@ class Article
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles", cascade={"persist"})
      */
     private $author;
 
