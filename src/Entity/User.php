@@ -7,16 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
-
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
- * @ApiResource()
- * 
- * 
  */
 class User implements UserInterface
 {
@@ -24,59 +17,45 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("user")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     *@Groups("user")
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     * 
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * 
-     * 
      */
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author")
-     * @Groups("user")
-     * 
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author", orphanRemoval=true)
      */
     private $articles;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author")
-     * 
-     */
-    private $comments;
 
     public function __construct()
     {
         $this->articles = new ArrayCollection();
-        $this->comments = new ArrayCollection();
     }
 
- 
     public function getId(): ?int
     {
         return $this->id;
     }
-    
+
     public function getEmail(): ?string
     {
         return $this->email;
     }
+
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -169,36 +148,6 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($article->getAuthor() === $this) {
                 $article->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getAuthor() === $this) {
-                $comment->setAuthor(null);
             }
         }
 
