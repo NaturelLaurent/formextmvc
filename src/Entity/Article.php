@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
-  * @ORM\Entity(repositoryClass=UserRepository::class)
+  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @ApiResource(
  *      itemOperations={"GET", "PUT", "DELETE"},
  *      collectionOperations={"GET", "POST"},
@@ -32,13 +34,13 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("article:read")
+     * @Groups({"article:read", "user:read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("article:read")
+     * @Groups({"article:read"})
      */
     private $content;
 
@@ -91,7 +93,7 @@ class Article
 
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new DateTime();
 
         return $this;
     }

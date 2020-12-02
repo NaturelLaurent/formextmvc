@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -17,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      collectionOperations={"GET", "POST"},
  *      normalizationContext={
  *          "groups"={
- *              "user:ap"
+ *              "user:read"
  *              }
  *      }
  * 
@@ -29,13 +30,19 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read", "user:ap","article:read"})
+     * @Groups({"user:read","article:read"})
      */
     private $id;
 
     /**
+     * @Assert\Regex(
+     *          "/^\w+@\w+.[a-z]{2,4}|d+$/"
+     * )
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read", "user:ap"})
+     * @Groups({"user:read", "article:read"})
      */
     private $email;
 
@@ -53,7 +60,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author", orphanRemoval=true)
-     * @Groups({"user:read","user:ap"})
+     * @Groups({"user:read"})
      */
     private $articles;
 
