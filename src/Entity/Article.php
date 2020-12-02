@@ -5,10 +5,20 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
- * @ORM\Entity(repositoryClass=ArticleRepository::class)
+  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource(
+ *      itemOperations={"GET", "PUT", "DELETE"},
+ *      collectionOperations={"GET", "POST"},
+ *      normalizationContext={
+ *          "groups"={
+ *              "article:read"
+ *          }
+ *      }
+ * 
+ * )
  */
 class Article
 {
@@ -16,27 +26,32 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read", "user:ap","article:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("article:read")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("article:read")
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("article:read")
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("article:read")
      */
     private $author;
 
