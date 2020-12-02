@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizableInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -74,7 +73,7 @@ class UserController extends AbstractController
 
             return $this->json($user, Response::HTTP_CREATED);
         } catch (Exception $e) {
-            return $this->json(['db' => 'db incorrect'], Response::HTTP_FORBIDDEN);
+            return $this->json(['db' => 'db incorrect'], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             return $this->json(['message' => $e->getMessage()], Response::HTTP_FORBIDDEN);
         }
