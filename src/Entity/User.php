@@ -14,13 +14,49 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
- *      itemOperations={"GET", "PUT", "DELETE"},
- *      collectionOperations={"GET", "POST"},
- *      normalizationContext={
- *          "groups"={
- *              "user:read"
- *              }
- *      }
+ *       itemOperations={
+ *                      "GET"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_FULLY')",
+ *                              "normalization_context"={
+ *                                      "groups"={
+ *                                                  "user:read"
+ *                                               }
+ *                               }
+ *                             },
+ *                      "PUT"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_FULLY') and object == user or is_granted('ROLE_ADMIN')" ,
+ *                              "denormalization_context"={
+ *                                      "groups"={
+ *                                                  "user:mod"
+ *                                               }
+ *                               }
+ *                             },
+ *                      "DELETE"={
+ *                               "access_control" = "is_granted('IS_AUTHENTICATED_FULLY') and object == user or is_granted('ROLE_ADMIN')",
+ *                               "denormalization_context"={
+ *                                      "groups"={
+ *                                                  "user:del"
+ *                                               }
+ *                               }
+ *                              }
+ *                      },
+ *      collectionOperations={"GET"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_FULLY')",
+ *                              "normalization_context"={
+ *                                      "groups"={
+ *                                                  "user:read"
+ *                                               }
+ *                               }
+ *                              },
+ *                      "POST"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')" ,
+ *                              "denormalization_context"={
+ *                                      "groups"={
+ *                                                  "user:create"
+ *                                               }
+ *                               }
+ *                             }
+ *                          }
  * 
  * )
  */
@@ -30,7 +66,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read","article:read"})
+     * @Groups({"user:read","article:read", "user:del", "user:create"})
      */
     private $id;
 
@@ -40,25 +76,26 @@ class User implements UserInterface
      *     message = "The email '{{ value }}' is not a valid email."
      * )
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read", "article:read"})
+     * @Groups({"user:read", "article:read", "user:mod", "user:del", "user:create"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"user:read"})
+     * @Groups({"admin:input", "user:del", "user:create"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user:del", "user:mod", "user:create"})
      */
     private $password;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author", orphanRemoval=true)
-     * @Groups({"user:read"})
+     * @Groups({"user:read", "user:create"})
      */
     private $articles;
 

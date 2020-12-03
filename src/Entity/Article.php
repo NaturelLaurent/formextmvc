@@ -10,16 +10,52 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
-  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @ApiResource(
- *      itemOperations={"GET", "PUT", "DELETE"},
- *      collectionOperations={"GET", "POST"},
- *      normalizationContext={
- *          "groups"={
- *              "article:read"
- *          }
- *      }
- * 
+ *      itemOperations={
+ *                      "GET"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_FULLY')",
+ *                              "normalization_context"={
+ *                                      "groups"={
+ *                                                  "article:read"
+ *                                               }
+ *                               }
+ *                             },
+ *                      "PUT"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_FULLY') and object.getAuthor() == user or is_granted('ROLE_ADMIN')" ,
+ *                              "denormalization_context"={
+ *                                      "groups"={
+ *                                                  "article:mod"
+ *                                               }
+ *                               }
+ *                             },
+ *                      "DELETE"={
+ *                               "access_control" = "is_granted('IS_AUTHENTICATED_FULLY') and object.getAuthor() == user or is_granted('ROLE_ADMIN')",
+ *                               "denormalization_context"={
+ *                                      "groups"={
+ *                                                  "article:del"
+ *                                               }
+ *                               }
+ *                              }
+ *                      },
+ *      collectionOperations={
+ *                      "GET"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_FULLY')",
+ *                              "normalization_context"={
+ *                                      "groups"={
+ *                                                  "article:read"
+ *                                               }
+ *                               }
+ *                              },
+ *                      "POST"={
+ *                              "access_control" = "is_granted('IS_AUTHENTICATED_FULLY')" ,
+ *                              "denormalization_context"={
+ *                                      "groups"={
+ *                                                  "article:create"
+ *                                               }
+ *                               }
+ *                             }
+ *                          }
  * )
  */
 class Article
@@ -28,32 +64,32 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read", "user:ap","article:read"})
+     * @Groups({"user:read","article:read","article:del"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"article:read", "user:read"})
+     * @Groups({"article:read", "user:read", "article:del", "article:mod", "article:create"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"article:read"})
+     * @Groups({"article:read", "article:del", "article:mod", "article:create"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("article:read")
+     * @Groups({"article:read", "article:del", "article:mod", "article:create"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("article:read")
+     * @Groups({"article:read","article:del", "article:create"})
      */
     private $author;
 
