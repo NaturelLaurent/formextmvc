@@ -8,12 +8,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
- * @ApiResource
+ * @ApiResource(
+ *      collectionOperations={"GET","POST"},
+ *      itemOperations={"GET","DELETE"},
+ *       normalizationContext={
+ *          "groups"={
+ *              "user:read"
+ *          }
+ *     },
+ *       denormalizationContext={
+ *          "groups"={
+ *            "user:write"
+ *          }
+ *     }
+ * 
+ *     
+ *      
+ * )
  */
 class User implements UserInterface
 {
@@ -21,36 +38,42 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read", "user:write"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("user:write")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups("user:write")
      */
     private $password;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user", cascade={"remove"})
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $articles;
 
     public function __construct()
     {
+      //  $this->isPublished = false;
         $this->articles = new ArrayCollection();
     }
 
-  
+
 
     public function getId(): ?int
     {
@@ -160,5 +183,21 @@ class User implements UserInterface
         return $this;
     }
 
- 
+    /**
+     * @param string $slug
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    /**
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 }

@@ -3,12 +3,26 @@
 namespace App\Entity;
 
 use App\Repository\CategorieRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategorieRepository::class)
+ * @ApiResource(
+ *      collectionOperations={"GET"},
+ *      itemOperations={"GET"},
+ *       normalizationContext={
+ *          "groups"={
+ *              "categorie:read"
+ *          }
+ *     }
+ *      
+ * )
  */
 class Categorie
 {
@@ -16,21 +30,25 @@ class Categorie
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="categorie")
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $articles;
 

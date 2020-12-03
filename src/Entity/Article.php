@@ -7,10 +7,21 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ApiResource(
+ *      collectionOperations={"GET"},
+ *      itemOperations={"GET"},
+ *       normalizationContext={
+ *          "groups"={
+ *              "article:read"
+ *          }
+ *     }
+ *      
+ * )
  */
 class Article
 {
@@ -18,6 +29,7 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $id;
 
@@ -33,21 +45,25 @@ class Article
 
     /**
      * @ORM\Column(type="text", length=255, nullable=true)
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $contenu;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="articles")
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $categorie;
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="article", cascade={"remove"})
+     * @Groups({"user:read", "article:read", "commentaire:read", "categorie:read"})
      */
     private $commentaires;
 
