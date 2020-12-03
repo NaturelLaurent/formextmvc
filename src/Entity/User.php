@@ -35,9 +35,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Assert\Regex(
-     *          "/^\w+@\w+.[a-z]{2,4}|d+$/"
-     * )
+     *
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email."
      * )
