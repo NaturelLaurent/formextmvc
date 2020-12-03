@@ -8,7 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     itemOperations={
+ *          "get"={
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *          },
+ *          "put"={
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object.getUser() == user"
+ *          }
+ *      }
+ *
+ *     collectionOperations={"post"},
+ *
+ *      normalizationContext={
+ *          "groups"={
+ *              "lire"
+ *          }
+ *      }
+ *
+ * )
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
 class Article
