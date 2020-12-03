@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "GET",
  *          "DELETE",
  *          "put"={
- *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user"
+ *              "security"="is_granted('IS_AUTHENTICATED_FULLY') and object == user"
  *          }
  *     },
  *     normalizationContext={
