@@ -11,18 +11,21 @@ class DemoTest extends TestCase
 {
     // public function testPremier()
     // {
-
     //     $string = new HomeController();
-
     //     $this->assertEquals('ok', $string->testing('ok'));
-
     // }
+
     public function testDate()
     {
 
         $string = new Date('01-08-1990');
-
         $this->assertEquals(true, $string->ifDate());
+
+        $string = new Date('01081990');
+        $this->assertEquals(false, $string->ifDate());
+
+        // $string = new Date('sqqsd');
+        // $this->assertEquals(false, $string->ifDate());
 
     }
 }

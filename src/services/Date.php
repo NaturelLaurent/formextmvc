@@ -13,6 +13,7 @@ class Date
     public function ifDate()
     {
         $testDate = explode("-", $this->date);
-        return checkdate($testDate[0], $testDate[1], $testDate[2]);
+        (count($testDate) === 3) ? $check = checkdate($testDate[0], $testDate[1], $testDate[2]) : $check = false;
+        return $check;
     }
 }
