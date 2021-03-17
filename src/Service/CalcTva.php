@@ -1,7 +1,6 @@
 <?php
 namespace App\Service;
 
-use http\Exception;
 
 class CalcTva
 {
@@ -14,20 +13,17 @@ class CalcTva
 
     /**
      * CalcTva constructor.
+     *
      * @param string $name
      * @param string $type
      * @param float $price
-     * @throws Exception
+     * @throws \LogicException
      */
     public function __construct(string $name, string $type, float $price)
     {
         $this->name = $name;
         $this->type = $type;
         $this->price = $price;
-
-        if($price < 0) {
-            throw new \Exception('Tarif incorrect');
-        }
     }
 
     /**
@@ -36,6 +32,10 @@ class CalcTva
     public function calc() : float
     {
         $prix = 0.0;
+
+        if($this->price < 0) {
+            throw new \LogicException('Tarif incorrect');
+        }
 
         if (self::PROD_ALIMENTATION == $this->type) {
             $prix = $this->price * 0.055;
