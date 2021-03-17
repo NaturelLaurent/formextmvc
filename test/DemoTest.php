@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 // require 'src/Controllers/HomeController.php';
 require 'src/Services/Date.php';
+require 'src/Services/Tva.php';
 
 class DemoTest extends TestCase
 {
@@ -14,11 +15,11 @@ class DemoTest extends TestCase
      /**
      * @dataProvider dateData
      */
-    public function testDate(string $date, bool $bool)
+    public function testDate(string $dateIn, bool $bool)
     {
 
-        $string = new Date($date);
-        $this->assertEquals($bool, $string->checkDate());
+        $date = new Date($dateIn);
+        $this->assertEquals($bool, $date->checkDate());
 
     }
 
@@ -34,12 +35,23 @@ class DemoTest extends TestCase
         ];
     }
 
-    // /**
-    //  * @dataProvider 
-    //  */
-    // public function testTva()
-    // {
-    //     $string = new Date('1990-08-01');
-    //     $this->assertEquals(false, $string->checkDate());
-    // }
+     /**
+     * @dataProvider tvaData
+     */
+    public function testTva(float $price, string $type, float $result)
+    {
+        $tva = new Tva($price, $type);
+        $this->assertEquals($result, $tva->calcul());
+    }
+
+    public function tvaData()
+    {
+        return [
+            [15.99,'agricole',1.6],
+            [10,'alimentaire',0.55],
+            [24.10,'autre',4.82],
+            [1560,'agricole',156],
+        ];
+    }
+
 }
