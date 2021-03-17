@@ -19,13 +19,22 @@ class DemoTest extends TestCase
     {
 
         $string = new Date('01-08-1990');
-        $this->assertEquals(true, $string->ifDate());
+        $this->assertEquals(true, $string->checkDate());
 
         $string = new Date('01081990');
-        $this->assertEquals(false, $string->ifDate());
+        $this->assertEquals(false, $string->checkDate());
 
-        // $string = new Date('sqqsd');
-        // $this->assertEquals(false, $string->ifDate());
+        $string = new Date('sqqsd');
+        $this->assertEquals(false, $string->checkDate());
+      
+        $string = new Date('70-08-1990');
+        $this->assertEquals(false, $string->checkDate());
+
+        $string = new Date('70-98-9999999');
+        $this->assertEquals(false, $string->checkDate());
+
+        $string = new Date('1990-08-01');
+        $this->assertEquals(false, $string->checkDate());
 
     }
 }

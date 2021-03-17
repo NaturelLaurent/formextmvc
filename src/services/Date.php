@@ -10,7 +10,7 @@ class Date
     }
 
    
-    public function ifDate()
+    public function checkDate() : bool
     {
         $testDate = explode("-", $this->date);
         (count($testDate) === 3) ? $check = checkdate($testDate[0], $testDate[1], $testDate[2]) : $check = false;

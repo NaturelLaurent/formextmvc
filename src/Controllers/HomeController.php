@@ -59,6 +59,6 @@ class HomeController
     public function myDate(string $date)
     {
         $date = new Date($date);
-        return $date->ifDate();
+        return $date->checkDate();
     }
 }
