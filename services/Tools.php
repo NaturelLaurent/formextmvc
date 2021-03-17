@@ -3,6 +3,7 @@ namespace App;
 
 use PDO;
 use PDOException;
+use App\SPDO;
 
 class Tools {
 
@@ -16,7 +17,7 @@ class Tools {
 
     public function __construct($type, $table, ...$value){ 
         
-        $this->db       =   Connect::database();
+        $this->db       =   SPDO::getInstance();
         $this->query    =   null;
         $this->table    =   $table;
         $this->space    =   ' ';

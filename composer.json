@@ -9,5 +9,8 @@
             "Src\\Controllers\\"    :"src/Controllers/",
             "Src\\Models\\"         :"src/Models/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     }
 }

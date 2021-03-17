@@ -41,7 +41,6 @@ class RouteRegistrar
             {
                 header('Content-Type: application/json');
                 echo json_encode($view(), JSON_PRETTY_PRINT);
-
             } 
             else
             {

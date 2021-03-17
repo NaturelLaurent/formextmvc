@@ -2,6 +2,7 @@
 namespace Src\Controllers;
 
 Use Src\Models\Article;
+Use Src\Services\Date;
 
 class HomeController
 {
@@ -48,5 +49,16 @@ class HomeController
         Article::find($id)->delete();
        
         return Redirect('articles');
+    }
+
+    public function testing(string $test)
+    {
+        return $test;
+    }
+
+    public function myDate(string $date)
+    {
+        $date = new Date($date);
+        return $date->ifDate();
     }
 }
