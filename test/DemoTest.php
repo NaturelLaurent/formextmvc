@@ -4,8 +4,8 @@ use App\Service\Calc;
 use App\Service\MyString;
 use PHPUnit\Framework\TestCase;
 
-require 'src/Service/MyString.php';
-require 'src/Service/Calc.php';
+require dirname(__FILE__).'/../src/Service/MyString.php';
+require dirname(__FILE__).'/../src/Service/Calc.php';
 
 class DemoTest extends TestCase
 {
