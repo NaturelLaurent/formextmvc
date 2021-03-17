@@ -4,11 +4,9 @@ namespace Src\Services;
 
 class Date
 {
-
     public function __construct(string $date) {
         $this->date = $date;
     }
-
    
     public function checkDate() : bool
     {

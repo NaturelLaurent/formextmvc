@@ -2,6 +2,7 @@
 
 Use Src\Controllers\HomeController;
 Use Src\Services\Date;
+Use Src\Services\Tva;
 use PHPUnit\Framework\TestCase;
 
 // require 'src/Controllers/HomeController.php';
@@ -9,32 +10,36 @@ require 'src/Services/Date.php';
 
 class DemoTest extends TestCase
 {
-    // public function testPremier()
-    // {
-    //     $string = new HomeController();
-    //     $this->assertEquals('ok', $string->testing('ok'));
-    // }
 
-    public function testDate()
+     /**
+     * @dataProvider dateData
+     */
+    public function testDate(string $date, bool $bool)
     {
 
-        $string = new Date('01-08-1990');
-        $this->assertEquals(true, $string->checkDate());
-
-        $string = new Date('01081990');
-        $this->assertEquals(false, $string->checkDate());
-
-        $string = new Date('sqqsd');
-        $this->assertEquals(false, $string->checkDate());
-      
-        $string = new Date('70-08-1990');
-        $this->assertEquals(false, $string->checkDate());
-
-        $string = new Date('70-98-9999999');
-        $this->assertEquals(false, $string->checkDate());
-
-        $string = new Date('1990-08-01');
-        $this->assertEquals(false, $string->checkDate());
+        $string = new Date($date);
+        $this->assertEquals($bool, $string->checkDate());
 
     }
+
+    public function dateData()
+    {
+        return [
+            ['01-08-1990',true],
+            ['01081990',false],
+            ['sqqsd',false],
+            ['70-08-1990',false],
+            ['70-98-9999999',false],
+            ['1990-08-01',false]
+        ];
+    }
+
+    // /**
+    //  * @dataProvider 
+    //  */
+    // public function testTva()
+    // {
+    //     $string = new Date('1990-08-01');
+    //     $this->assertEquals(false, $string->checkDate());
+    // }
 }
