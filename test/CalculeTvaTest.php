@@ -18,7 +18,7 @@ class CalculeTvaTest extends TestCase
 //        $this->expectException('Exception');
 
         $product = new CalcTva('Un produit', $type, $price);
-        $this->expectException('LogicException');
+//        $this->expectException('LogicException');
 
 //        var_dump($product->calc());
 //        die;
@@ -28,7 +28,6 @@ class CalculeTvaTest extends TestCase
     public function prixTVA()
     {
         return [
-            [-10, CalcTva::PROD_ALIMENTATION, 0.0],
             [15.99, CalcTva::PROD_AGRICOLE, 1.599],
             [100, CalcTva::PROD_AGRICOLE, 10],
             [20, CalcTva::PROD_ALIMENTATION, 1.1],

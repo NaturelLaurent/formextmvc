@@ -33,9 +33,9 @@ class CalcTva
     {
         $prix = 0.0;
 
-        if($this->price < 0) {
-            throw new \LogicException('Tarif incorrect');
-        }
+//        if($this->price < 0) {
+//            throw new \LogicException('Tarif incorrect');
+//        }
 
         if (self::PROD_ALIMENTATION == $this->type) {
             $prix = $this->price * 0.055;
